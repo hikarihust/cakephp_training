@@ -29,7 +29,23 @@ class BooksController extends AppController{
 				)
 			)
 		));
-		pr($books);
-		die();
+	}
+
+
+/**
+ * index method
+ * hiển thị 10 quyển sách mới nhất trên trang chủ
+ * @return void
+ */
+	public function index() {
+		$books = $this->Book->find('all', array(
+			'fields' => array('title', 'image', 'sale_price', 'slug'),
+			'order' => array('created' => 'desc'),
+			'limit' => 10,
+			'contain' => array('Writer'=> array(
+				'fields' => 'name'
+			))
+		));
+		$this->set('books', $books);
 	}
 }
