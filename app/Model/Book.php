@@ -2,6 +2,7 @@
 
 App::uses('AppModel', 'Model');
 class Book extends AppModel{
+	public $actsAs = array('Containable');
 	public $useTable = 'books';
 	public $validate = array(
 	);
