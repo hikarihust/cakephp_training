@@ -79,4 +79,22 @@ class BooksController extends AppController{
 		$books = $this->paginate();
 		$this->set('books', $books);
 	}
+
+/**
+ * view method
+ * Xem thông tin chi tiết một quyển sách
+ */
+	public function view($slug = null){
+		$options = array(
+			'conditions' => array(
+				'Book.slug' => $slug
+			)
+		);
+		$book = $this->Book->find('first', $options);
+		if (empty($book)) {
+			throw new NotFoundException(__('Không tìm thấy quyển sách này!'));
+		}
+		$this->set('book', $book);
+	}
+
 }
