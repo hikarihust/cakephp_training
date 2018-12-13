@@ -45,4 +45,16 @@ class Book extends AppModel{
 			'associationForeignKey' => 'writer_id',
 		)
 	);
+
+	public function latest(){
+		return $this->find('all', array(
+			'fields' => array('id', 'title', 'image', 'sale_price', 'slug'),
+			'order' => array('created' => 'desc'),
+			'limit' => 10,
+			'condition' => array('published' => 1),
+			'contain' => array('Writer'=> array(
+				'fields' => array('name', 'slug')
+			))
+		));
+	}
 }
