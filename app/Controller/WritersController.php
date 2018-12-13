@@ -29,4 +29,21 @@ class WritersController extends AppController{
 		$writers = $this->paginate();
 		$this->set('writers', $writers);
 	}
+
+/**
+ *  view method
+ */
+	public function view($slug = null){
+		$options = array(
+			'conditions' => array(
+				'Writer.slug' => $slug,
+			),
+			'recursive' => -1
+		);
+		$writer = $this->Writer->find('first', $options);
+		if (empty($writer)) {
+			throw new NotFoundException(__('Không tìm thấy tác giả này!'));
+		}
+		$this->set('writer', $writer);
+	}
 }
