@@ -6,6 +6,12 @@ App::uses('AppController', 'Controller');
  * 
  */
 class BooksController extends AppController{
+
+	public $paginate = array(
+		'order' => array('created' => 'desc'),
+		'limit' => 5
+	);
+
 	public function truyvan(){
 		// $books = $this->Book->find('all', array(
 		// 	'recursive' => -1,
@@ -51,7 +57,26 @@ class BooksController extends AppController{
 
 		// Truy van du lieu tren Model
 		$books = $this->Book->latest();
+		$this->set('books', $books);
+	}
 
+/**
+ * latest_books method
+ * hiển thị tất cả các quyển sách và sắp xếp theo thứ tự từ mới đến cũ
+ * phân trang dữ liệu
+ */
+	public function latest_books(){
+		$this->paginate = array(
+			'fields' => array('id', 'title', 'slug', 'image', 'sale_price'),
+			'order' => array('Book.created' => 'desc'),
+			'limit' => 5,
+			'contain' => array(
+				'Writer' => array('name', 'slug')
+			),
+			'condition' => array('published' => 1),
+			'paramType' => 'querystring'
+		);
+		$books = $this->paginate();
 		$this->set('books', $books);
 	}
 }
