@@ -8,12 +8,5 @@
 		<?php echo $writer['Writer']['name']; ?> <br>
 		<br>
 	<?php endforeach ?>
-	<p>	
-		<?= $this->Paginator->counter("Trang {:page}/{:pages} hiển thị {:current} quyển sách trông tổng số {:count} quyển."); ?> <br>
-		<?= $this->Paginator->prev('Trang trước') ?> |
-		<?= $this->Paginator->numbers(array(
-			'separator' => ' - ',
-		)) ?> |
-		<?= $this->Paginator->next('Trang sau') ?>
-	</p>
+	<?= $this->element('pagination', array('object'=>'tác giả')); ?>
 </div>
