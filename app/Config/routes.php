@@ -31,7 +31,8 @@
 	Router::connect('/tac-gia', array('controller' => 'writers', 'action' => 'index'));
 	Router::connect('/:book_title', array('controller' => 'books', 'action' => 'view'), array('pass' => array('book_title')));
 	Router::connect('/tac-gia/:name', array('controller' => 'writers', 'action' => 'view'), array('pass' => array('name')));
-	Router::connect('/danh-muc/:name', array('controller' => 'categories', 'action' => 'view'), array('pass'=>array('name')));
+	// Router::connect('/danh-muc/:name', array('controller' => 'categories', 'action' => 'view'), array('pass'=>array('name')));
+	Router::connect('/danh-muc/*', array('controller' => 'categories', 'action' => 'view'));
 
 /**
  * ...and connect the rest of 'Pages' controller's URLs.

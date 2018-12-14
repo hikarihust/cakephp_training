@@ -15,13 +15,32 @@ class CategoriesController extends AppController{
 		$options = array(
 			'conditions' => array(
 				'Category.slug' => $slug
-			)
+			),
+			'recursive' => -1
 		);
 		$category = $this->Category->find('first', $options);
 		if (empty($category)) {
 			throw new NotFoundException(__('Không tìm thấy!'));
 		}
 		$this->set('category', $category);
+		$this->loadModel('Book');
+		// Phan trang du lieu books
+		$this->paginate = array(
+			'fields' => array('id','title','slug','image','sale_price'),
+			'order' => array('Book.created'=>'desc'),
+			'limit' => 5,
+			'contain' => array(
+				'Writer' => array('name','slug'),
+				'Category'=> array('slug')
+				),
+			'conditions' => array(
+				'published' => 1,
+				'Category.slug' => $slug
+				),
+			'paramType' => 'querystring'
+			);
+		$books = $this->paginate('Book');
+		$this->set('books',$books);
 	}
 
 }

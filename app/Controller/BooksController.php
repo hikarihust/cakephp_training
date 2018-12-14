@@ -73,7 +73,7 @@ class BooksController extends AppController{
 			'contain' => array(
 				'Writer' => array('name', 'slug')
 			),
-			'condition' => array('published' => 1),
+			'conditions' => array('published' => 1),
 			'paramType' => 'querystring'
 		);
 		$books = $this->paginate();
