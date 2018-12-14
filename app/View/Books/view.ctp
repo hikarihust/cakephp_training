@@ -45,3 +45,14 @@
 		</dd>
 	</dl>
 </div>
+
+<!-- hiển thị tác giả -->
+<div class="related">
+	<h3><?php echo __('Tác giả'); ?></h3>
+	<?php if (!empty($book['Writer'])): ?>
+	<?php foreach ($book['Writer'] as $writer): ?>
+		<?= $this->Html->link($writer['name'], '/tac-gia/'.$writer['slug']) ?> <br>
+	<?php endforeach; ?>
+<?php endif; ?>
+</div>
+<!-- end -->

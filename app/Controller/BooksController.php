@@ -88,7 +88,10 @@ class BooksController extends AppController{
 		$options = array(
 			'conditions' => array(
 				'Book.slug' => $slug
-			)
+			),
+			'contain' => array(
+				'Writer' => array('name', 'slug')
+			),
 		);
 		$book = $this->Book->find('first', $options);
 		if (empty($book)) {
