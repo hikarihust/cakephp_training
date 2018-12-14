@@ -1,19 +1,9 @@
 <div class="writers view">
 <h2><?php  echo __('Writer'); ?></h2>
 	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($writer['Writer']['id']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Name'); ?></dt>
 		<dd>
 			<?php echo h($writer['Writer']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Slug'); ?></dt>
-		<dd>
-			<?php echo h($writer['Writer']['slug']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Biography'); ?></dt>
@@ -21,10 +11,12 @@
 			<?php echo h($writer['Writer']['biography']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Created'); ?></dt>
-		<dd>
-			<?php echo h($writer['Writer']['created']); ?>
-			&nbsp;
-		</dd>
 	</dl>
+</div>
+<div class="related">
+	<h3> <?php echo __('Related Books'); ?> </h3>
+	<?php if(!empty($books)): ?>
+		<?= $this->element('books', array('books' => $books)) ?>
+		<?= $this->element('pagination', array('object' => 'quyển sách')) ?>
+	<?php endif; ?>
 </div>

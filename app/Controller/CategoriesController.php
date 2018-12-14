@@ -23,8 +23,8 @@ class CategoriesController extends AppController{
 			throw new NotFoundException(__('Không tìm thấy!'));
 		}
 		$this->set('category', $category);
-		$this->loadModel('Book');
 		// Phan trang du lieu books
+		$this->loadModel('Book');
 		$this->paginate = array(
 			'fields' => array('id','title','slug','image','sale_price'),
 			'order' => array('Book.created'=>'desc'),

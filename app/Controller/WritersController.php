@@ -45,5 +45,34 @@ class WritersController extends AppController{
 			throw new NotFoundException(__('Không tìm thấy tác giả này!'));
 		}
 		$this->set('writer', $writer);
+		// phân trang dữ liệu books
+		$this->loadModel('Book');
+		$this->paginate = array(
+			'fields' => array('id', 'title', 'slug', 'image', 'sale_price'),
+			'order' => array('Book.created' => 'desc'),
+			'limit' => 5,
+			'contain' => array(
+				'Writer' => array('name', 'slug')
+			),
+			'joins' => array(
+				array(
+					'table' => 'books_writers',
+					'alias' => 'BookWriter',
+					'conditions' => 'BookWriter.book_id = Book.id'
+				),
+				array(
+					'table' => 'writers',
+					'alias' => 'Writer',
+					'conditions' => 'BookWriter.writer_id = Writer.id'
+				)
+			),
+			'conditions' => array(
+				'published' => 1,
+				'Writer.slug' => $slug
+			),
+			'paramType' => 'querystring'
+		);
+		$books = $this->paginate('Book');
+		$this->set('books', $books);
 	}
 }
