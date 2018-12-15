@@ -77,7 +77,15 @@
 
 <!-- gởi comment -->
 <div class="comments form">
-<?php echo $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post')); ?>
+	<?php if(isset($errors)): ?>
+		<?php foreach($errors as $val1): ?>
+			<?php foreach($val1 as $val2): ?>
+				<?php echo $val2; ?>
+			<?php endforeach; ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
+
+<?php echo $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true)); ?>
 	<fieldset>
 		<legend><?php echo __('Add Comment'); ?></legend>
 	<?php

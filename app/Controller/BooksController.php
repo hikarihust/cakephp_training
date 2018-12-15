@@ -89,9 +89,9 @@ class BooksController extends AppController{
 			'conditions' => array(
 				'Book.slug' => $slug
 			),
-			// 'contain' => array(
-			// 	'Writer' => array('name', 'slug')
-			// ),
+			'contain' => array(
+				'Writer' => array('name', 'slug')
+			),
 		);
 		$book = $this->Book->find('first', $options);
 		if (empty($book)) {
@@ -126,5 +126,11 @@ class BooksController extends AppController{
 			)
 		));
 		$this->set('related_books', $related_books);
+		// Báo lỗi xác thực dữ liệu khi gởi comment
+		if($this->Session->check('comment_errors')){
+			$errors = $this->Session->read('comment_errors');
+			$this->set('errors', $errors);
+			$this->Session->delete('comment_errors');
+		}
 	}
 }

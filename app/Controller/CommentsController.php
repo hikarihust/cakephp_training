@@ -11,6 +11,7 @@ class CommentsController extends AppController{
 		'order' => array('created' => 'desc'),
 		'limit' => 5
 	);
+	public $helpers = array('Html', 'Form', 'Js'=>array("Jquery"),"Session");
 
 /**
  * add method
@@ -19,12 +20,18 @@ class CommentsController extends AppController{
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('Đã gởi nhận xét!'));
-				$this->redirect($this->referer());
-			} else {
-				$this->Session->setFlash(__('Chưa gởi được, vui lòng thử lại'));
-			}		
+			$this->Comment->set($this->request->data);
+			if($this->Comment->validates()){
+				if ($this->Comment->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã gởi nhận xét!'));
+				} else {
+					$this->Session->setFlash(__('Chưa gởi được, vui lòng thử lại'));
+				}	
+			}else{
+				$comment_errors = $this->Comment->validationErrors;
+				$this->Session->write('comment_errors', $comment_errors);
+			}
+			$this->redirect($this->referer());
 		}
 	}
 }
