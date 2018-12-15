@@ -74,3 +74,18 @@
 	<?php endif; ?>
 </div>
 <!-- end -->
+
+<!-- gởi comment -->
+<div class="comments form">
+<?php echo $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post')); ?>
+	<fieldset>
+		<legend><?php echo __('Add Comment'); ?></legend>
+	<?php
+		echo $this->Form->input('user_id', array('label' => false, 'type' => 'text', 'value' =>1, 'hidden' => true));
+		echo $this->Form->input('book_id', array('label' => false, 'type' => 'text', 'value' => $book['Book']['id'], 'hidden' => true));
+		echo $this->Form->input('content');
+	?>
+	</fieldset>
+<?php echo $this->Form->end(__('Submit')); ?>
+</div>
+<!-- end -->
