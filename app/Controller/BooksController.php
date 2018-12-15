@@ -111,5 +111,20 @@ class BooksController extends AppController{
 			)
 		);
 		$this->set('comments', $comments);
+		// Hiển thị sách liên quan
+		$related_books = $this->Book->find('all', array(
+			'fields' => array('title', 'image', 'sale_price', 'slug'),
+			'conditions' => array(
+				'category_id' => $book['Book']['category_id'],
+				'Book.id <>' => $book['Book']['id'],
+				'published' => 1
+			),
+			'limit' => 5,
+			'order' => 'rand()',
+			'contain' => array(
+				'Writer' => array('name', 'slug')
+			)
+		));
+		$this->set('related_books', $related_books);
 	}
 }

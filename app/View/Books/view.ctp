@@ -57,6 +57,12 @@
 </div>
 <!-- end -->
 
+<!-- hiển thị sách liên quan -->
+<h3>Sách liên quan</h3>
+<?= $this->element('books', array('books' => $related_books)) ?>
+
+<!-- end -->
+
 <!-- hiển thị comments -->
 <div class="related">
 	<h3><?php echo __('Comments'); ?></h3>
