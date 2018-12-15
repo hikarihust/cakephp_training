@@ -56,3 +56,15 @@
 <?php endif; ?>
 </div>
 <!-- end -->
+
+<!-- hiển thị comments -->
+<div class="related">
+	<h3><?php echo __('Comments'); ?></h3>
+	<?php if (!empty($comments)): ?>
+		<?php foreach($comments as $comment): ?>
+			<?php echo $comment['User']['username']; ?> đã gửi:
+			"<?php echo $comment['Comment']['content']; ?>" <br>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</div>
+<!-- end -->

@@ -89,15 +89,27 @@ class BooksController extends AppController{
 			'conditions' => array(
 				'Book.slug' => $slug
 			),
-			'contain' => array(
-				'Writer' => array('name', 'slug')
-			),
+			// 'contain' => array(
+			// 	'Writer' => array('name', 'slug')
+			// ),
 		);
 		$book = $this->Book->find('first', $options);
 		if (empty($book)) {
 			throw new NotFoundException(__('Không tìm thấy quyển sách này!'));
 		}
 		$this->set('book', $book);
+		// Hiển thị comment
+		$this->loadModel('Comment');
+		$comments = $this->Comment->find('all', array(
+				'conditions' => array(
+					'book_id' => $book['Book']['id']
+				),
+				'order' => array('Comment.created' => 'asc'),
+				'contain' => array(
+					'User' => array('username')
+				)
+			)
+		);
+		$this->set('comments', $comments);
 	}
-
 }

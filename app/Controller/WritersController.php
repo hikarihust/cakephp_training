@@ -58,11 +58,13 @@ class WritersController extends AppController{
 				array(
 					'table' => 'books_writers',
 					'alias' => 'BookWriter',
+					'type' => 'left',
 					'conditions' => 'BookWriter.book_id = Book.id'
 				),
 				array(
 					'table' => 'writers',
 					'alias' => 'Writer',
+					'type' => 'left',
 					'conditions' => 'BookWriter.writer_id = Writer.id'
 				)
 			),
