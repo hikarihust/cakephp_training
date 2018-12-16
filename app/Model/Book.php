@@ -5,6 +5,10 @@ class Book extends AppModel{
 	public $actsAs = array('Containable');
 	public $useTable = 'books';
 	public $validate = array(
+		'keyword' =>array(
+			'rule' => array('notBlank'),
+			'message' => 'Bạn phải gõ từ khóa để tìm kiếm.'
+		)
 	);
 
 /**

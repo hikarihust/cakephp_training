@@ -11,6 +11,57 @@ class BooksController extends AppController{
 		'order' => array('created' => 'desc'),
 		'limit' => 5
 	);
+	/**
+	 * Tim kiem sach
+	 */
+
+	public function search(){
+		$notfound = false;
+		if ($this->request->is('post')) {
+			$this->Book->set($this->request->data);
+			if ($this->Book->validates()) {
+				$keyword = $this->request->data['Book']['keyword'];
+				$this->paginate = array(
+					'fields' => array('title', 'image', 'sale_price', 'slug'),
+					'contain' => array(
+						'Writer' => array('name', 'slug')
+					),
+					'order' => array('Book.created' => 'desc'),
+					'conditions' => array(
+						'Book.published' => 1,
+						'or' => array(
+							'title like' => '%'.$keyword.'%',
+							'Writer.name like' => '%'.$keyword.'%'
+						)
+					),
+					'joins' => array(
+						array(
+							'table' => 'books_writers',
+							'alias' => 'BookWriter',
+							'type' => 'left',
+							'conditions' => 'BookWriter.book_id = Book.id'
+						),
+						array(
+							'table' => 'writers',
+							'alias' => 'Writer',
+							'type' => 'left',
+							'conditions' => 'BookWriter.writer_id = Writer.id'
+						)
+					)
+				);
+				$books = $this->paginate('Book');
+				if (!empty($books)) {
+					$this->set('results', $books);
+				}else{
+					$notfound = true;
+				}
+			}else{
+				$errors = $this->Book->validationErrors;
+				$this->set('errors', $errors);
+			}
+		}
+		$this->set('notfound', $notfound);
+	}
 
 	public function truyvan(){
 		// $books = $this->Book->find('all', array(
