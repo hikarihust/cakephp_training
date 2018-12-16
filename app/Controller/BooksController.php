@@ -133,4 +133,22 @@ class BooksController extends AppController{
 			$this->Session->delete('comment_errors');
 		}
 	}
+
+/**
+ * update comment_count trong bang books
+ */
+	// public function update_comment(){
+	// 	$books = $this->Book->find('all', array(
+	// 		'fields' => array('id'),
+	// 		'contain' => 'Comment'
+	// 	));
+	// 	foreach ($books as $book) {
+	// 		if (count($book['Comment']) > 0) {
+	// 			$this->Book->updateAll(
+	// 				array('comment_count' => count($book['Comment'])),
+	// 				array('Book.id' => $book['Book']['id'])
+	// 			);
+	// 		}
+	// 	}
+	// }
 }

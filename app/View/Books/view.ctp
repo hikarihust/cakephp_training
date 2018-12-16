@@ -7,7 +7,12 @@
 			<?php echo h($book['Book']['title']); ?>
 			&nbsp;
 		</dd>
-		
+		<!-- Đếm số lượng comment -->
+		<dt><?php echo __('Comment'); ?></dt>
+		<dd>
+			<?php echo $book['Book']['comment_count'] ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Image'); ?></dt>
 		<dd>
 			<?php echo $this->Html->image($book['Book']['image']); ?>

@@ -44,7 +44,8 @@ class Comment extends AppModel{
 		),
 		'Book' => array(
 			'className' => 'Book',
-			'foreignKey' => 'book_id'
+			'foreignKey' => 'book_id',
+			'counterCache' => true
 		)
 	);
 }
