@@ -11,54 +11,72 @@ class BooksController extends AppController{
 		'order' => array('created' => 'desc'),
 		'limit' => 5
 	);
-	/**
-	 * Tim kiem sach
-	 */
 
-	public function search(){
-		$notfound = false;
+	/**
+	 * Xử lý get_keyword
+	 */
+	public function get_keyword(){
 		if ($this->request->is('post')) {
 			$this->Book->set($this->request->data);
 			if ($this->Book->validates()) {
 				$keyword = $this->request->data['Book']['keyword'];
-				$this->paginate = array(
-					'fields' => array('title', 'image', 'sale_price', 'slug'),
-					'contain' => array(
-						'Writer' => array('name', 'slug')
-					),
-					'order' => array('Book.created' => 'desc'),
-					'conditions' => array(
-						'Book.published' => 1,
-						'or' => array(
-							'title like' => '%'.$keyword.'%',
-							'Writer.name like' => '%'.$keyword.'%'
-						)
-					),
-					'joins' => array(
-						array(
-							'table' => 'books_writers',
-							'alias' => 'BookWriter',
-							'type' => 'left',
-							'conditions' => 'BookWriter.book_id = Book.id'
-						),
-						array(
-							'table' => 'writers',
-							'alias' => 'Writer',
-							'type' => 'left',
-							'conditions' => 'BookWriter.writer_id = Writer.id'
-						)
-					)
-				);
-				$books = $this->paginate('Book');
-				if (!empty($books)) {
-					$this->set('results', $books);
-				}else{
-					$notfound = true;
-				}
 			}else{
 				$errors = $this->Book->validationErrors;
-				$this->set('errors', $errors);
+				$this->Session->write('search_validation', $errors);
 			}
+			$this->redirect(array(
+				'action' => 'search',
+				'keyword' => $keyword
+			));
+		}
+	}
+
+	/**
+	 * Tim kiem sach
+	 */
+	public function search(){
+		$notfound = false;
+		if (!empty($this->request->params['named']['keyword'])) {
+			$keyword = $this->request->params['named']['keyword'];
+			$this->paginate = array(
+				'fields' => array('title', 'image', 'sale_price', 'slug'),
+				'contain' => array(
+					'Writer' => array('name', 'slug')
+				),
+				'order' => array('Book.created' => 'desc'),
+				'conditions' => array(
+					'Book.published' => 1,
+					'or' => array(
+						'title like' => '%'.$keyword.'%',
+						'Writer.name like' => '%'.$keyword.'%'
+					)
+				),
+				'joins' => array(
+					array(
+						'table' => 'books_writers',
+						'alias' => 'BookWriter',
+						'type' => 'left',
+						'conditions' => 'BookWriter.book_id = Book.id'
+					),
+					array(
+						'table' => 'writers',
+						'alias' => 'Writer',
+						'type' => 'left',
+						'conditions' => 'BookWriter.writer_id = Writer.id'
+					)
+				)
+			);
+			$books = $this->paginate('Book');
+			if (!empty($books)) {
+				$this->set('results', $books);
+			}else{
+				$notfound = true;
+			}	
+			$this->set('keyword', $keyword);
+		}
+		if ($this->Session->check('search_validation')) {
+			$this->set('errors', $this->Session->read('search_validation'));
+			$this->Session->delete('search_validation');
 		}
 		$this->set('notfound', $notfound);
 	}
