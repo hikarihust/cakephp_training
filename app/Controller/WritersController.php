@@ -50,7 +50,7 @@ class WritersController extends AppController{
 		$this->paginate = array(
 			'fields' => array('id', 'title', 'slug', 'image', 'sale_price'),
 			'order' => array('Book.created' => 'desc'),
-			'limit' => 5,
+			'limit' => 8,
 			'contain' => array(
 				'Writer' => array('name', 'slug')
 			),
@@ -76,5 +76,6 @@ class WritersController extends AppController{
 		);
 		$books = $this->paginate('Book');
 		$this->set('books', $books);
+		$this->set('title_for_layout', 'Tác Giả - '.$writer['Writer']['name']);
 	}
 }

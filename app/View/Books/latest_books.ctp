@@ -12,5 +12,5 @@
 </div> <!-- end element -->
 
 <!-- pagination -->
-<?= $this->element('pagination', array('object' => 'quyển sách')); ?>
+<?= $this->element('pagination') ?>
 <!-- end pagination -->
