@@ -8,6 +8,19 @@ App::uses('AppController', 'Controller');
 class CategoriesController extends AppController{
 
 /**
+ * Menu categories
+ */
+	public function menu(){
+		if ($this->request->is('requested')) {
+			$categories = $this->Category->find('all', array(
+				'recursive' => -1,
+				'order' => array('name' => 'asc')
+			));
+			return $categories;
+		}
+	}
+
+/**
  * view method
  * Xem thông tin chi tiết một quyển sách
  */
