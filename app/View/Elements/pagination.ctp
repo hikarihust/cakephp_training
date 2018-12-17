@@ -1,8 +1,10 @@
-<p>	
-	<?= $this->Paginator->counter("Trang {:page}/{:pages} hiển thị {:current} ". $object ." trong tổng số {:count} " . $object); ?> <br>
-	<?= $this->Paginator->prev('Trang trước') ?> |
+<ul class="pagination">
+	<?= $this->Paginator->prev('«', array('tag' => 'li'), '«', array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'disabled')) ?> 
 	<?= $this->Paginator->numbers(array(
-		'separator' => ' - ',
-	)) ?> |
-	<?= $this->Paginator->next('Trang sau') ?>
-</p>
+		'separator' => '',
+		'tag' => 'li',
+		'currentClass' => 'active',
+		'currentTag' => 'a'
+	)) ?> 
+	<?= $this->Paginator->next('»', array('tag' => 'li'), '»', array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'disabled')) ?>
+</ul> 

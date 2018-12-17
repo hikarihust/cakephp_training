@@ -139,7 +139,7 @@ class BooksController extends AppController{
 		$this->paginate = array(
 			'fields' => array('id', 'title', 'slug', 'image', 'sale_price'),
 			'order' => array('Book.created' => 'desc'),
-			'limit' => 5,
+			'limit' => 8,
 			'contain' => array(
 				'Writer' => array('name', 'slug')
 			),
@@ -148,6 +148,7 @@ class BooksController extends AppController{
 		);
 		$books = $this->paginate();
 		$this->set('books', $books);
+		$this->set('title_for_layout', 'Sách mới');
 	}
 
 /**
