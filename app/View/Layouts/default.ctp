@@ -100,8 +100,7 @@
 	<div id="footer">
 	  <div class="container">
 	    <p class="text-muted credit">
-	    	Giao diện thực hành khóa học <a href="http://chickenrain.com/khoa-hoc-cakephp-nang-cao">CakePHP Nâng Cao</a> - 
-	    	Bản quyền thuộc về <a href="http://chickenrain.com">ChickenRain.Com</a>
+	    	<a href="#">CakePHP Training</a> 
 	    </p>
 	  </div>
 	</div>
@@ -109,10 +108,9 @@
 </div>
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-
-
+<?= $this->Html->script('jquery') ?>
+<?= $this->Html->script('bootstrap') ?>
+<?= $this->element('sql_dump'); ?>
 
 </body>
 </html>

@@ -54,7 +54,7 @@ class Book extends AppModel{
 		return $this->find('all', array(
 			'fields' => array('id', 'title', 'image', 'sale_price', 'slug'),
 			'order' => array('created' => 'desc'),
-			'limit' => 10,
+			'limit' => 4,
 			'condition' => array('published' => 1),
 			'contain' => array('Writer'=> array(
 				'fields' => array('name', 'slug')

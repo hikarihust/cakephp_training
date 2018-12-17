@@ -127,6 +127,7 @@ class BooksController extends AppController{
 		// Truy van du lieu tren Model
 		$books = $this->Book->latest();
 		$this->set('books', $books);
+		$this->set('title_for_layout', 'Home');
 	}
 
 /**
