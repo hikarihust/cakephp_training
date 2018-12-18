@@ -192,7 +192,7 @@ class BooksController extends AppController{
 				'Book.id <>' => $book['Book']['id'],
 				'published' => 1
 			),
-			'limit' => 5,
+			'limit' => 4,
 			'order' => 'rand()',
 			'contain' => array(
 				'Writer' => array('name', 'slug')
