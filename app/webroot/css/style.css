@@ -94,3 +94,8 @@ form.search {
 .thumbnail {
     height: 100%;
 }
+
+/*disable resizing for all textareas*/
+textarea {
+    resize: none;
+}

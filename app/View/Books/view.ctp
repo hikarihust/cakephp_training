@@ -85,16 +85,31 @@
 	<div class="row">	
 
 		<div class="col col-lg-10">
-			<p class="comment"><strong>Trí:</strong> In hendrerit egestas turpis, et facilisis quam consectetur et. Etiam interdum arcu et quam fermentum accumsan. Integer fermentum congue blandit. Nam eget pellentesque diam. Donec in dui eget purus bibendum cursus. In quis elit ultricies, faucibus nulla quis, tincidunt mauris. Sed fringilla porttitor ipsum. Nullam venenatis odio at ultrices pretium.</p>
-			<p class="comment"><strong>Quang:</strong> In hendrerit egestas turpis, et facilisis quam consectetur et. Etiam interdum arcu et quam fermentum accumsan. Integer fermentum congue blandit. Nam eget pellentesque diam. Donec in dui eget purus bibendum cursus. In quis elit ultricies, faucibus nulla quis, tincidunt mauris. Sed fringilla porttitor ipsum. Nullam venenatis odio at ultrices pretium.</p>
+			<?php if (!empty($comments)): ?>
+				<?php foreach($comments as $comment): ?>
+					<p class="comment">
+						<strong><?php echo $comment['User']['username']; ?>:</strong>
+						<?php echo $comment['Comment']['content']; ?>
+					</p>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<p class="comment">
+					Chưa có nhận xét nào
+				</p>
+			<?php endif; ?>
 			<h4>Gửi nhận xét:</h4>
-			<div class="alert alert-danger">Lỗi....</div>
-			<div class="alert alert-info">Gửi thành công...</div>
-			<form class="commentform">
-				<textarea rows="5" class="col-lg-12"></textarea>
-				<button type="submit" class="pull-right btn btn-primary col-lg-3">Gửi</button>
-			</form>
-
+			<?php if(isset($errors)): ?>
+				<?= $this->element('errors', array('errors', $errors)) ?>
+			<?php endif; ?>
+			<?php echo $this->Flash->render(); ?>
+			<?= $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true, 'class' => 'commentform')); ?>
+				<?php
+					echo $this->Form->input('user_id', array('label' => false, 'type' => 'hidden', 'value' =>1));
+					echo $this->Form->input('book_id', array('label' => false, 'type' => 'hidden', 'value' => $book['Book']['id']));
+					echo $this->Form->input('content', array('label' => false , 'type' => 'textarea' ,'row' => '5', 'class' => 'col-lg-12'));
+				?>
+				<?= $this->Form->button('Gửi', array('type' => 'submit', 'class' => 'pull-right btn btn-primary col-lg-3')) ?>
+			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div> 

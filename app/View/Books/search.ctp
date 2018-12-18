@@ -14,13 +14,7 @@
 <!-- Hiển thị lỗi xác thực dữ liệu khi nhập keyword để tìm kiếm -->
 <?php if(isset($errors)): ?>
 <div class="panel">
-	<div class="alert alert-danger">
-		<?php foreach($errors as $val1): ?>
-			<?php foreach($val1 as $val2): ?>
-				<?php echo $val2; ?>
-			<?php endforeach; ?>
-		<?php endforeach; ?>
-	</div>
+	<?= $this->element('errors', array('errors', $errors)) ?>
 </div> 	
 <?php endif; ?>
 

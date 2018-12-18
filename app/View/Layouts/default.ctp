@@ -69,7 +69,6 @@
   	<div class="row">
   		<!-- content -->
 	  	<div class="content col col-lg-9">
-	  		<?php echo $this->Flash->render(); ?>
 	  		<?php echo $this->fetch('content'); ?>
 	  	</div> 
 	  	<!-- end content -->

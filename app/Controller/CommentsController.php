@@ -23,15 +23,15 @@ class CommentsController extends AppController{
 			$this->Comment->set($this->request->data);
 			if($this->Comment->validates()){
 				if ($this->Comment->save($this->request->data)) {
-					$this->Session->setFlash(__('Đã gởi nhận xét!'));
+					$this->Session->setFlash(__('Đã gởi nhận xét!'), 'default', array('class' => 'alert alert-info'));
 				} else {
-					$this->Session->setFlash(__('Chưa gởi được, vui lòng thử lại'));
+					$this->Session->setFlash(__('Chưa gởi được, vui lòng thử lại'), 'default', array('class' => 'alert alert-danger'));
 				}	
 			}else{
 				$comment_errors = $this->Comment->validationErrors;
 				$this->Session->write('comment_errors', $comment_errors);
 			}
-			$this->redirect($this->referer());
+			$this->redirect($this->referer().'#nhanxet');
 		}
 	}
 }
