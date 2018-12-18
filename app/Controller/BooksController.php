@@ -64,7 +64,8 @@ class BooksController extends AppController{
 						'type' => 'left',
 						'conditions' => 'BookWriter.writer_id = Writer.id'
 					)
-				)
+				),
+				'limit' => 8
 			);
 			$books = $this->paginate('Book');
 			if (!empty($books)) {
@@ -79,6 +80,7 @@ class BooksController extends AppController{
 			$this->Session->delete('search_validation');
 		}
 		$this->set('notfound', $notfound);
+		$this->set('title_for_layout', 'Tìm kiếm');
 	}
 
 	public function truyvan(){

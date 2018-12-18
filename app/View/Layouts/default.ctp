@@ -64,7 +64,6 @@
 	  </div> <!-- end Main Menu -->
 	</div>
 
-
   <!-- Content -->
   <div id="content">
   	<div class="row">
