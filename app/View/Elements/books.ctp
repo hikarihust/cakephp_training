@@ -2,7 +2,7 @@
 	<?php foreach ($books as $book): ?>
 	<div class="col col-lg-3">
 		<div class="book-thumbnail">
-			<?= $this->Html->image($book['Book']['image'], array('width'=>'140px', 'height' => '200px'))  ?>
+			<?= $this->Html->link($this->Html->image($book['Book']['image'], array('width'=>'140px', 'height' => '200px')), '/'.$book['Book']['slug'], array('escape' => false)) ?>
 			<div class="caption book-info">
 				<h4><?= $this->Html->link($book['Book']['title'], '/'.$book['Book']['slug']) ?></h4>
 				<?php foreach ($book['Writer'] as $writer) 
