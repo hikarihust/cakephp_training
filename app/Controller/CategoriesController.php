@@ -41,7 +41,7 @@ class CategoriesController extends AppController{
 		$this->paginate = array(
 			'fields' => array('id','title','slug','image','sale_price'),
 			'order' => array('Book.created'=>'desc'),
-			'limit' => 5,
+			'limit' => 8,
 			'contain' => array(
 				'Writer' => array('name','slug'),
 				'Category'=> array('slug')

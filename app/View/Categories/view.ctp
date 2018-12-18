@@ -1,22 +1,17 @@
-<div class="categories view">
-<h2><?php  echo __('Category'); ?></h2>
-	<dl>
-		<dt><?php echo __('Name'); ?></dt>
-		<dd>
-			<?php echo h($category['Category']['name']); ?>
-			&nbsp;
-		</dd>	
-		<dt><?php echo __('Description'); ?></dt>
-		<dd>
-			<?php echo h($category['Category']['description']); ?>
-			&nbsp;
-		</dd>
-	</dl>
-</div>
-<div class="related">	
-	<h3><?php echo __('Related Books')	 ?>	</h3>
-	<?php if(!empty($books)): ?>
-		<?= $this->element('books', array('books' => $books)) ?>
-		<?= $this->element('pagination', array('object' => 'quyển sách')) ?>
-	<?php endif; ?>
-</div>	
+<!-- new element -->
+<div class="panel">
+	<h4 class="panel-heading">
+		<i class="glyphicon glyphicon-th"></i>
+		<small> 
+			Chuyên mục: 
+		</small> <?php echo h($category['Category']['name']); ?>
+		<small class="sorts pull-right">Sắp xếp theo: 
+			<?= $this->Paginator->sort('title', 'tên'); ?> ∙ 
+			<?= $this->Paginator->sort('created', 'cũ/mới') ?>
+		</small>
+	</h4>
+	<?= $this->element('books', array('books', $books)) ?>
+</div> <!-- end element -->
+<!-- pagination -->
+<?= $this->element('pagination') ?>
+<!-- end pagination -->
