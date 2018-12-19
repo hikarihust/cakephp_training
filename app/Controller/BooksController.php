@@ -32,6 +32,17 @@ class BooksController extends AppController{
 	}
 
 	/**
+	 * Update payment
+	 * cập nhật đơn hàng
+	 */
+	private function update_payment(){
+		//tính tổng giá trị đơn hàng
+		$cart = $this->Session->read('cart');
+		$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
+		$this->Session->write('payment.total', $total);
+	}
+
+	/**
 	 * add to cart
 	 * Thêm sách vào giỏ hàng
 	 */
@@ -58,9 +69,7 @@ class BooksController extends AppController{
 			$this->Session->write('cart.'.$id, $item);
 
 			//tính tổng giá trị của giỏ hàng
-			$cart = $this->Session->read('cart');
-			$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
-			$this->Session->write('payment.total', $total);
+			$this->update_payment();
 
 			$this->Session->setFlash('Đã thêm quyển sách vào trong giỏ hàng!', 'default', array('class' => 'alert alert-info'), 'cart');
 			$this->redirect($this->referer());
@@ -99,8 +108,24 @@ class BooksController extends AppController{
 			if (empty($cart)) {
 				$this->empty_cart();
 			}else{
-				$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
-				$this->Session->write('payment.total', $total);
+				$this->update_payment();
+			}
+			$this->redirect($this->referer());
+		}
+	}
+
+	/**
+	 * Cập nhật số lượng từng quyển sách trong giỏ hàng
+	 */
+	public function update($id = null){
+		if ($this->request->is('post')) {
+			$quantity = $this->request->data['Book']['quantity'];
+			$book = $this->Session->read('cart.'.$id);
+			if (!empty($book) && $quantity > 0) {
+				$book['quantity'] = round($quantity);
+				$this->Session->write('cart.'.$id, $book);
+				//cập nhật đơn hàng
+				$this->update_payment();
 			}
 			$this->redirect($this->referer());
 		}

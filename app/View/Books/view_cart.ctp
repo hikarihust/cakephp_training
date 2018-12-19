@@ -24,7 +24,7 @@
 							<td><?php echo $i++; ?></td>
 							<td><?= $this->Html->link($book['title'], '/'.$book['slug']) ?></td>
 							<td class="row">
-								<?= $this->Form->create('Book', array('class'=> 'form-inline')) ?>
+								<?= $this->Form->create('Book', array('type'=>'post', 'class'=> 'form-inline', 'url' => '/books/update/'.$book['id'])) ?>
 									<?= $this->Form->input('quantity', array('value'=>$book['quantity'], 'class'=>'col col-lg-2', 'label'=>false, 'div' =>false)) ?>
 									<?= $this->Form->button('Cập nhật', array('type'=> 'submit', 'class'=>'btn btn-link')) ?>
 								<?= $this->Form->end() ?>
