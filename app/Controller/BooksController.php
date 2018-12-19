@@ -79,6 +79,17 @@ class BooksController extends AppController{
 	}
 
 	/**
+	 * Làm rỗng giỏ hàng
+	 */
+	public function empty_cart(){
+		if ($this->request->is('post')) {
+			$this->Session->delete('cart');
+			$this->Session->delete('payment');
+			$this->redirect($this->referer());
+		}
+	}
+
+	/**
 	 * Tim kiem sach
 	 */
 	public function search(){

@@ -52,8 +52,7 @@
 				</tbody>
 			</table>
 		</div>
-		<button type="submit" class="col-lg-3 btn btn-default empty">Làm rỗng giỏ hàng</button>
-
+		<?= $this->Form->postLink('Làm rỗng giỏ hàng', '/books/empty_cart',array('class'=>'col-lg-3 btn btn-default empty')) ?>
 	</div>
 
 </div> 
