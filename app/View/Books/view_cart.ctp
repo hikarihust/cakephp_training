@@ -30,7 +30,9 @@
 								<?= $this->Form->end() ?>
 							</td>
 							<td><?= $this->Number->currency($book['sale_price'], ' VND', array('places' => 0, 'wholePosition' => 'after')); ?></td>
-							<td><a href="#"><i class="glyphicon glyphicon-remove"></i></a></td>
+							<td>
+								<?= $this->Form->postLink('<i class="glyphicon glyphicon-remove"></i>', '/books/remove/'.$book['id'], array('escape' => false)) ?>
+							</td>
 						</tr>
 					<?php endforeach ?>
 

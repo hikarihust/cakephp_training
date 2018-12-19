@@ -90,6 +90,23 @@ class BooksController extends AppController{
 	}
 
 	/**
+	 * Xóa từng quyển sách ra giỏ hàng
+	 */
+	public function remove($id = null){
+		if ($this->request->is('post')) {
+			$this->Session->delete('cart.'.$id);
+			$cart = $this->Session->read('cart');
+			if (empty($cart)) {
+				$this->empty_cart();
+			}else{
+				$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
+				$this->Session->write('payment.total', $total);
+			}
+			$this->redirect($this->referer());
+		}
+	}
+
+	/**
 	 * Tim kiem sach
 	 */
 	public function search(){
