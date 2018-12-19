@@ -1,10 +1,7 @@
 <!-- new books -->
-<?php pr($this->Session->read('cart')); ?>
-
 <div class="panel">
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-bookmark"></i> Chi tiết
 	</h4>
-	<?php echo $this->Session->flash('cart'); ?>
 	<div class="row"> 
 		<div class="col col-lg-3">
 			<div class="book-thumbnail">

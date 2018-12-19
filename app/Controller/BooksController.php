@@ -56,6 +56,12 @@ class BooksController extends AppController{
 			}
 			//tạo giỏ hàng và thêm sản phẩm vào giỏ hàng	
 			$this->Session->write('cart.'.$id, $item);
+
+			//tính tổng giá trị của giỏ hàng
+			$cart = $this->Session->read('cart');
+			$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
+			$this->Session->write('payment.total', $total);
+
 			$this->Session->setFlash('Đã thêm quyển sách vào trong giỏ hàng!', 'default', array('class' => 'alert alert-info'), 'cart');
 			$this->redirect($this->referer());
 		}

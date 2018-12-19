@@ -77,14 +77,7 @@
 	  	<div class="sidebar col col-lg-3">
 	  		<div class="panel panel-info">
 	  		<h4 class="panel-heading"><i class="glyphicon glyphicon-shopping-cart"></i> Giỏ hàng</h4>
-	  			<ul>
-	  			<li><a href="">Bí mật tư duy triệu phú </a>(30,000đ)</li>
-	  			<li><a href="">Tác nhân thu hút </a>(20,000đ)</li>
-	  			</ul>
-	  			<!-- <ul> -->
-	  				<p class="pricetotal"><span class="label">Tổng: 50,000đ</span></p>
-	  			<!-- </ul> -->
-	  			<button type="button" class="btn btn-primary btn-block">Xem/Cập nhật Giỏ hàng</button>
+	  			<?= $this->element('cart'); ?>
 	  		</div>
 	  		<div class="panel">
 	  		<h4 class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> Danh mục sách</h4>
