@@ -43,13 +43,26 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td colspan="2"><strong>Đã giảm <small>(Coupon: CAKEPHP - giảm 10%)</small></strong></td>
-						<td colspan="2"><strong>0 VND</strong></td>
+						<?php if ($this->Session->check('payment.coupon')): ?>
+							<td colspan="2">
+								<strong>
+									Đã giảm <small>(Coupon: <?php echo $payment['coupon'] ?> - giảm <?php echo $payment['discount']; ?>%)</small>
+								</strong>
+							</td>
+							<td colspan="2"><strong><?= $this->Number->currency($payment['total']-$payment['pay'], ' VND', array('places' => 0, 'wholePosition' => 'after')); ?></strong></td>
+						<?php else: ?>
+							<td colspan="2"><strong>Đã giảm</strong></td>
+							<td colspan="2"><strong>0 VND</strong></td>
+						<?php endif ?>
 					</tr>
 					<tr class="success">
 						<td></td>
 						<td colspan="2"><h4><strong>Giá phải trả</strong> </h4></td>
-						<td colspan="2"><h4><span class="label label-danger"><?= $this->Number->currency($payment['total'], ' VND', array('places' => 0, 'wholePosition' => 'after')); ?></span></h4></td>
+						<?php if ($this->Session->check('payment.coupon')): ?>
+							<td colspan="2"><h4><span class="label label-danger"><?= $this->Number->currency($payment['pay'], ' VND', array('places' => 0, 'wholePosition' => 'after')); ?></span></h4></td>
+						<?php else: ?>
+							<td colspan="2"><h4><span class="label label-danger"><?= $this->Number->currency($payment['total'], ' VND', array('places' => 0, 'wholePosition' => 'after')); ?></span></h4></td>
+						<?php endif ?>
 					</tr>
 				</tbody>
 			</table>
@@ -63,16 +76,22 @@
 <!-- coupon -->
 <div class="panel panel-success col col-lg-4">
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-barcode"></i> Mã giảm giá</h4>
-	<form class="form-inline">
-		<input class="col-lg-9" type="text" placeholder="Nhập mã giảm giá (coupon)">
-		<button type="submit" class="col-lg-2 btn btn-primary">Nhập</button>
-	</form>
+	<?= $this->Session->flash('coupon'); ?>
+	<?php if ($this->Session->check('payment.coupon')): ?>
+		Bạn đã nhập mã giảm giá!
+	<?php else: ?>
+	<?= $this->Form->create('Coupon', array('method' => 'post', 'url' => array('controller' => 'coupons', 'action' => 'add'), 'class' => 'form-inline')); ?>
+		<?= $this->Form->input('code', array('class'=> 'col-lg-9', 'placeholder' => 'Nhập mã giảm giá (coupon)', 'label' => false, 'div' => false)); ?>
+		<?= $this->Form->button('Nhập', array('type' => 'submit', 'class' => 'col-lg-2 btn btn-primary')); ?>
+	<?= $this->form->end(); ?>
+
 	<h4>Ghi chú:</h4>
 	<ul>
 		<li>Mỗi mã giảm giá có mức giảm giá khác nhau và chỉ dùng trong khoảng thời gian quy định.</li>
 		<li>Chỉ dùng một mã giảm giá khi thanh toán đơn hàng.</li>
 		<li>Số tiền giảm giá được tính dựa trên <strong>số phần trăm giảm giá * tổng giá trị</strong> của đơn hàng.</li>
 	</ul>
+	<?php endif ?>
 </div>
 
 <!-- customer info -->
@@ -109,7 +128,6 @@
 			</div>
 		</div>
 	</form>
-
 </div>
 <?php else: ?>
 	<div class="panel">
