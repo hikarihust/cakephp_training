@@ -99,3 +99,7 @@ form.search {
 textarea {
     resize: none;
 }
+
+.empty {
+    margin-left:  5%;
+}

@@ -28,6 +28,7 @@
 	// Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 	Router::connect('/', array('controller' => 'books', 'action' => 'index'));
 	Router::connect('/sach-moi', array('controller' => 'books', 'action'=>'latest_books'));
+	Router::connect('/gio-hang', array('controller' => 'books', 'action' => 'view_cart'));
 	Router::connect('/tac-gia', array('controller' => 'writers', 'action' => 'index'));
 	Router::connect('/:book_title', array('controller' => 'books', 'action' => 'view'), array('pass' => array('book_title')));
 	// Router::connect('/tac-gia/:name', array('controller' => 'writers', 'action' => 'view'), array('pass' => array('name')));

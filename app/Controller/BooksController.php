@@ -68,6 +68,17 @@ class BooksController extends AppController{
 	}
 
 	/**
+	 * Xem chi tiết giỏ hàng
+	 */
+	public function view_cart(){
+		$this->layout = 'cart_default';
+		$cart = $this->Session->read('cart');
+		$payment = $this->Session->read('payment');
+		$this->set(compact('cart', 'payment'));
+		$this->set('title_for_layout', 'Giỏ hàng');
+	}
+
+	/**
 	 * Tim kiem sach
 	 */
 	public function search(){
