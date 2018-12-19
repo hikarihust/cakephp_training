@@ -1,7 +1,10 @@
 <!-- new books -->
+<?php pr($this->Session->read('cart')); ?>
+
 <div class="panel">
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-bookmark"></i> Chi tiết
 	</h4>
+	<?php echo $this->Session->flash('cart'); ?>
 	<div class="row"> 
 		<div class="col col-lg-3">
 			<div class="book-thumbnail">
@@ -31,7 +34,7 @@
 				</p>
 				<p class="yourprice">Giá bán: <span class="label label-danger"><?= $this->Number->currency($book['Book']['sale_price'], ' VND', array('places' => 0, 'wholePosition' => 'after'))  ?></span>
 				</p>
-				<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-shopping-cart"></i> Thêm vào giỏ </button>
+				<?= $this->Form->postLink('<i class="glyphicon glyphicon-shopping-cart"></i> Thêm vào giỏ', '/books/add_to_cart/'.$book['Book']['id'], array('class' => 'btn btn-primary', 'escape' => false)); ?>
 			</div>
 		</div>
 
@@ -101,7 +104,7 @@
 			<?php if(isset($errors)): ?>
 				<?= $this->element('errors', array('errors', $errors)) ?>
 			<?php endif; ?>
-			<?php echo $this->Flash->render(); ?>
+			<?php echo $this->Session->flash(); ?>
 			<?= $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true, 'class' => 'commentform')); ?>
 				<?php
 					echo $this->Form->input('user_id', array('label' => false, 'type' => 'hidden', 'value' =>1));

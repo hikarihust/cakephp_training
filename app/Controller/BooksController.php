@@ -32,6 +32,36 @@ class BooksController extends AppController{
 	}
 
 	/**
+	 * add to cart
+	 * Thêm sách vào giỏ hàng
+	 */
+	public function add_to_cart($id = null){
+		if ($this->request->is('post')) {
+			//tìm thông tin về sản phẩm
+			$book = $this->Book->find('first', array(
+				'recursive' => -1,
+				'conditions' => array('Book.id' => $id) 
+			));
+			if ($this->Session->check('cart.'.$id)) {
+				$item = $this->Session->read('cart.'.$id);
+				$item['quantity'] += 1;
+			}else{
+				$item = array(
+					'id' => $book['Book']['id'],
+					'title' => $book['Book']['title'],
+					'slug' => $book['Book']['slug'],
+					'sale_price' => $book['Book']['sale_price'],
+					'quantity' => 1
+				);
+			}
+			//tạo giỏ hàng và thêm sản phẩm vào giỏ hàng	
+			$this->Session->write('cart.'.$id, $item);
+			$this->Session->setFlash('Đã thêm quyển sách vào trong giỏ hàng!', 'default', array('class' => 'alert alert-info'), 'cart');
+			$this->redirect($this->referer());
+		}
+	}
+
+	/**
 	 * Tim kiem sach
 	 */
 	public function search(){
