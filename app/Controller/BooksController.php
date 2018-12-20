@@ -40,6 +40,12 @@ class BooksController extends AppController{
 		$cart = $this->Session->read('cart');
 		$total = $this->Tool->array_sum($cart, 'quantity', 'sale_price');
 		$this->Session->write('payment.total', $total);
+
+		//kiểm tra xem có mã giảm giá hay không
+		if ($this->Session->check('payment.coupon')) {
+			$pay = $total - $this->Session->read('payment.discount')*$total/100;
+			$this->Session->write('payment.pay', $pay);
+		}
 	}
 
 	/**
