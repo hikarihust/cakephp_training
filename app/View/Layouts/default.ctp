@@ -81,7 +81,7 @@
 	  		</div>
 	  		<div class="panel">
 	  		<h4 class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> Danh mục sách</h4>
-	  		<?= $this->element('menu_categories') ?>
+	  		<?php //$this->element('menu_categories') ?>
 	  		</div>
 	  	</div> <!-- end sidebar -->
 
