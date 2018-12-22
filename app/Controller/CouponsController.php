@@ -2,6 +2,11 @@
 
 App::uses('AppController', 'Controller');
 
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->allow('add');
+	}
+
 /**
  * 
  */
