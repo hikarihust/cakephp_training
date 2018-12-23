@@ -97,31 +97,31 @@
 <!-- customer info -->
 <div class="panel panel-info col col-lg-7 col-offset-1">
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> Thanh toán đơn hàng</h4>
-	<?php if (true): ?>
+	<?php if (!empty($user_info)): ?>
 		<?= $this->Session->flash('order'); ?>
 		<?= $this->Form->create('Order', array('url'=> array('controller'=>'orders', 'action'=>'checkout'), 'class'=>'form-horizontal', 'inputDefaults'=>array('label' => false, 'div'=> false))); ?>
 			<div class="row">
 				<?= $this->Form->label('name', 'Tên', array('class' => 'col col-lg-2 control-label')); ?>
 				<div class="col col-lg-10">
-					<?= $this->Form->input('name', array('placeholder' => 'Nhập tên', 'value' => 'vudinhquang')) ?>
+					<?= $this->Form->input('name', array('placeholder' => 'Nhập tên', 'value' => $user_info['fullname'])) ?>
 				</div>
 			</div>
 			<div class="row">
 				<?= $this->Form->label('email', 'Email', array('class' => 'col col-lg-2 control-label')); ?>
 				<div class="col col-lg-10">
-					<?= $this->Form->input('email', array('placeholder' => 'Nhập email', 'value' => 'quang@gmail.com')) ?>
+					<?= $this->Form->input('email', array('placeholder' => 'Nhập email', 'value' => $user_info['email'])) ?>
 				</div>
 			</div>
 			<div class="row">
 				<?= $this->Form->label('address', 'Địa chỉ', array('class' => 'col col-lg-2 control-label')); ?>
 				<div class="col col-lg-10">
-					<?= $this->Form->input('address', array('placeholder' => 'Nhập địa chỉ', 'value' => 'hanoi-haibatrung')) ?>
+					<?= $this->Form->input('address', array('placeholder' => 'Nhập địa chỉ', 'value' => $user_info['address'])) ?>
 				</div>
 			</div>
 			<div class="row">
 				<?= $this->Form->label('phone', 'Phone', array('class' => 'col col-lg-2 control-label')); ?>
 				<div class="col col-lg-10">
-					<?= $this->Form->input('phone', array('placeholder' => 'Nhập số điện thoại', 'value' => '0987654321')) ?>
+					<?= $this->Form->input('phone', array('placeholder' => 'Nhập số điện thoại', 'value' => $user_info['phone_number'])) ?>
 				</div>
 			</div>
 			<div class="row">
@@ -131,7 +131,7 @@
 			</div>
 		<?= $this->Form->end(); ?>
 	<?php else: ?>
-		Bạn phải đăng nhập trước khi thanh toán!
+		Bạn phải <?= $this->Html->link('đăng nhập', '/login') ?> trước khi thanh toán!
 	<?php endif ?>
 </div>
 <?php else: ?>

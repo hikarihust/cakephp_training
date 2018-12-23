@@ -12,8 +12,9 @@ class OrdersController extends AppController{
  */
 	public function checkout(){
 		if ($this->request->is('post')) {
+			$user_info = $this->get_user();
 			$data = array(
-				'user_id' => 1,
+				'user_id' => $user_info['id'],
 				'order_info' => json_encode($this->Session->read('cart')),
 				'customer_info' => json_encode($this->request->data['Order']),
 				'payment_info' => json_encode($this->Session->read('payment')),
