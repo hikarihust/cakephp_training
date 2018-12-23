@@ -81,7 +81,7 @@
 		  		<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> <small>Xin chào <strong><?= $user_info['fullname'] ?></strong></small></h4>
 			  		<ul>
 			  			<li><a href="">Cập nhật thông tin</a></li>
-			  			<li><a href="">Đổi mật khẩu</a></li>
+			  			<li><?= $this->Html->link('Đổi mật khẩu', '/doi-mat-khau') ?></li>
 			  			<li><a href="">Lịch sử mua hàng</a></li>
 			  			<li><?= $this->Html->link('Đăng xuất', '/logout') ?></li>
 			  		</ul>
