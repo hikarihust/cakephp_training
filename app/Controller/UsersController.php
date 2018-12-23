@@ -18,6 +18,12 @@ class UsersController extends AppController{
 			}
 		}
 		$this->set('title_for_layout', 'Đăng nhập');
-		// $this->Session->setFlash('Bạn cần phải đăng nhập để tiếp tục.', 'default', array('class' => 'alert alert-danger'),'auth');
+	}
+
+/**
+ * logout - đăng xuất
+ */
+	public function logout(){
+		$this->redirect($this->Auth->logout());
 	}
 }
