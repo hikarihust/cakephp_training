@@ -285,7 +285,7 @@ class BooksController extends AppController{
 				),
 				'order' => array('Comment.created' => 'asc'),
 				'contain' => array(
-					'User' => array('username')
+					'User' => array('fullname')
 				)
 			)
 		);

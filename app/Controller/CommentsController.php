@@ -22,6 +22,8 @@ class CommentsController extends AppController{
 		if ($this->request->is('post')) {
 			$this->Comment->set($this->request->data);
 			if($this->Comment->validates()){
+				$user_info = $this->get_user();
+				$this->request->data['Comment']['user_id'] = $user_info['id'];
 				if ($this->Comment->save($this->request->data)) {
 					$this->Session->setFlash(__('Đã gởi nhận xét!'), 'default', array('class' => 'alert alert-info'));
 				} else {

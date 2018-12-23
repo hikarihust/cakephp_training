@@ -88,7 +88,7 @@
 			<?php if (!empty($comments)): ?>
 				<?php foreach($comments as $comment): ?>
 					<p class="comment">
-						<strong><?php echo $comment['User']['username']; ?>:</strong>
+						<strong><?php echo $comment['User']['fullname']; ?>:</strong>
 						<?php echo $comment['Comment']['content']; ?>
 					</p>
 				<?php endforeach; ?>
@@ -97,19 +97,25 @@
 					Chưa có nhận xét nào
 				</p>
 			<?php endif; ?>
+
+
+
 			<h4>Gửi nhận xét:</h4>
-			<?php if(isset($errors)): ?>
-				<?= $this->element('errors', array('errors', $errors)) ?>
-			<?php endif; ?>
-			<?php echo $this->Session->flash(); ?>
-			<?= $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true, 'class' => 'commentform')); ?>
-				<?php
-					echo $this->Form->input('user_id', array('label' => false, 'type' => 'hidden', 'value' =>1));
-					echo $this->Form->input('book_id', array('label' => false, 'type' => 'hidden', 'value' => $book['Book']['id']));
-					echo $this->Form->input('content', array('label' => false , 'type' => 'textarea' ,'row' => '5', 'class' => 'col-lg-12'));
-				?>
-				<?= $this->Form->button('Gửi', array('type' => 'submit', 'class' => 'pull-right btn btn-primary col-lg-3')) ?>
-			<?= $this->Form->end(); ?>
+			<?php if (!empty($user_info)): ?>
+				<?php if(isset($errors)): ?>
+					<?= $this->element('errors', array('errors', $errors)) ?>
+				<?php endif; ?>
+				<?php echo $this->Session->flash(); ?>
+				<?= $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true, 'class' => 'commentform')); ?>
+					<?php
+						echo $this->Form->input('book_id', array('label' => false, 'type' => 'hidden', 'value' => $book['Book']['id']));
+						echo $this->Form->input('content', array('label' => false , 'type' => 'textarea' ,'row' => '5', 'class' => 'col-lg-12'));
+					?>
+					<?= $this->Form->button('Gửi', array('type' => 'submit', 'class' => 'pull-right btn btn-primary col-lg-3')) ?>
+				<?= $this->Form->end(); ?>
+			<?php else: ?>
+				Bạn phải <?= $this->Html->link('đăng nhập', '/login') ?> trước khi gửi đánh giá.
+			<?php endif ?>
 		</div>
 	</div>
 </div> 
