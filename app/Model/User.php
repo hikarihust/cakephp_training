@@ -8,26 +8,6 @@ class User extends AppModel{
 	public $actsAs = array('Containable');
 	public $useTable = 'users';
 	public $validate = array(
-		'password' => array(
-			'notBlank' => array(
-				'rule' => array('notBlank'),
-				'message' => 'Mật khẩu không được để trống',
-			),
-			'minlength' => array(
-				'rule' => array('minlength', 6),
-				'message'=>'Mật khẩu phải có độ dài tối thiểu là 6 ký tự'
-			)
-		),
-		'confirm_password' => array(
-			'notBlank' => array(
-				'rule' => array('notBlank'),
-				'message' => 'Xác nhận mật khẩu không được để trống',
-			),
-			'password_confirm' => array(
-				'rule' => array('match_password','password'),
-				'message'=>'Xác nhận mật khẩu không đúng'
-			)
-		),
 		'lastname' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
@@ -53,6 +33,33 @@ class User extends AppModel{
 				'rule'=> 'isUnique',
 				'message'=>'Email đã được đăng ký, vui lòng đổi email khác'
 			),
+		),
+		'password' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Mật khẩu không được để trống',
+			),
+			'minlength' => array(
+				'rule' => array('minlength', 6),
+				'message'=>'Mật khẩu phải có độ dài tối thiểu là 6 ký tự'
+			)
+		),
+		'confirm_password' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Xác nhận mật khẩu không được để trống',
+			),
+			'password_confirm' => array(
+				'rule' => array('match_password','password'),
+				'message'=>'Xác nhận mật khẩu không đúng'
+			)
+		),
+		'confirm' => array(
+			'notBlank' => array(
+				'rule'    => array('comparison', '!=', 0),
+				'required' => true,
+				'message' => 'Vui lòng check vào ô đồng ý điều khoản của trang web để đăng ký.'
+			)
 		)
 	);
 

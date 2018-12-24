@@ -38,6 +38,36 @@ class UsersController extends AppController{
 	}
 
 /**
+ * register - đăng ký người dùng mới
+ */
+	public function register(){
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->User->set($this->request->data);
+			if ($this->User->validates()) {
+				$data = array(
+					'group_id'=> 2,
+					'lastname' => $this->request->data['User']['lastname'],
+					'firstname' => $this->request->data['User']['firstname'],
+					'username' => $this->request->data['User']['username'],
+					'password' => $this->request->data['User']['password'],
+					'email' => $this->request->data['User']['email'],
+					'address' => $this->request->data['User']['address'],
+					'phone_number' => $this->request->data['User']['phone_number']
+				);
+				if($this->User->save($data)){
+					$this->Auth->login();
+					$this->redirect('/');
+				}else{
+					$this->Session->setFlash('Đăng ký bị lỗi!', 'default', array('class'=>'alert alert-danger'));
+				}
+			}else{
+				$this->set('errors', $this->User->validationErrors);
+			}
+		}
+		$this->set('title_for_layout', 'Đăng ký');
+	}
+
+/**
  * change_password - đổi mật khẩu
  */
 	public function change_password(){

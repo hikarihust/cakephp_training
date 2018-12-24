@@ -13,6 +13,7 @@
 <?php else: ?>
 	<div class="panel">
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> <small>Xin chào <strong>khách hàng</strong></small></h4>
-		Nhấn vào <?= $this->Html->link('đây', '/login') ?> để đăng nhập
+		Nhấn vào <?= $this->Html->link('đây', '/login') ?> để đăng nhập <br>
+		Nếu bạn chưa có tài khoản thì hãy đăng ký tại <?= $this->Html->link('đây', '/dang-ky') ?>
 	</div>
 <?php endif ?>

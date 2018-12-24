@@ -2,7 +2,7 @@
 	<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> Đăng nhập</h4>
 	<?php if (empty($user_info)): ?>
 		<?php echo $this->Session->flash('auth'); ?>
-		<?= $this->Form->create('User', array('class' => 'form-horizontal', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
+		<?= $this->Form->create('User', array('class' => 'form-horizontal', 'novalidate' => true, 'inputDefaults' => array('label' => false, 'div' => false))); ?>
 			<div class="control-group">
 				<label class="control-label" for="inputUsername">Username</label>
 				<div class="controls">
