@@ -76,24 +76,8 @@
 	  	<!-- sidebar -->
 	  	<div class="sidebar col col-lg-3">
 	  		<!-- user panel -->
-	  		<?php if (!empty($user_info)): ?>
-		  		<div class="panel">
-		  		<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> <small>Xin chào <strong><?= $user_info['fullname'] ?></strong></small></h4>
-			  		<ul>
-			  			<li><a href="">Cập nhật thông tin</a></li>
-			  			<li><?= $this->Html->link('Đổi mật khẩu', '/doi-mat-khau') ?></li>
-			  			<li><a href="">Lịch sử mua hàng</a></li>
-			  			<li><?= $this->Html->link('Đăng xuất', '/logout') ?></li>
-			  		</ul>
-		  		</div>
-		  	<?php else: ?>
-		  		<div class="panel">
-		  		<h4 class="panel-heading"><i class="glyphicon glyphicon-user"></i> <small>Xin chào <strong>khách hàng</strong></small></h4>
-		  			Nhấn vào <?= $this->Html->link('đây', '/login') ?> để đăng nhập
-		  		</div>
-	  		<?php endif ?>
+	  		<?= $this->element('user_panel'); ?>
 	  		<!-- end user panel -->
-
 	  		<div class="panel panel-info">
 	  		<h4 class="panel-heading"><i class="glyphicon glyphicon-shopping-cart"></i> Giỏ hàng</h4>
 	  			<?= $this->element('cart'); ?>

@@ -24,7 +24,6 @@
 					<?= $this->Form->button('Lưu', array('type' => 'submit', 'class' => 'col-lg-2 btn btn-primary')) ?>
 				</div>
 			</div>
-		</form>
 		<?= $this->Form->end(); ?>
 	<?php else: ?>
 		Bạn chưa đăng nhập, click vào đây để <?= $this->Html->link('đăng nhập', '/login') ?>

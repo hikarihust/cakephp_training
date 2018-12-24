@@ -18,7 +18,6 @@ class User extends AppModel{
 				'message'=>'Mật khẩu phải có độ dài tối thiểu là 6 ký tự'
 			)
 		),
-
 		'confirm_password' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
@@ -28,6 +27,32 @@ class User extends AppModel{
 				'rule' => array('match_password','password'),
 				'message'=>'Xác nhận mật khẩu không đúng'
 			)
+		),
+		'lastname' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Vui lòng điền vào họ của bạn'
+			)
+		),
+		'firstname' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Vui lòng điền vào tên của bạn'
+			)
+		),
+		'email' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Email không được để trống',
+			),
+			'email' => array(
+				'rule' => array('email'),
+				'message' => 'Email không đúng định dạng',
+			),
+			'unique' => array(
+				'rule'=> 'isUnique',
+				'message'=>'Email đã được đăng ký, vui lòng đổi email khác'
+			),
 		)
 	);
 
@@ -72,6 +97,19 @@ class User extends AppModel{
  	public function beforeSave($option = array()){
  		if (isset($this->data['User']['password'])) {
  			$this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+ 		}
+ 		return true;
+ 	}
+
+ 	public function beforeValidate($option = array()){
+ 		if (isset($this->data['User']['email'])) {
+ 			$user_info = AuthComponent::user();
+ 			if (!empty($user_info)) {
+ 				$user = $this->findById($user_info['id']);
+ 			}
+ 			if (!empty($user) && $this->data['User']['email'] == $user['User']['email']) {
+ 				unset($this->data['User']['email']);
+ 			}
  		}
  		return true;
  	}
