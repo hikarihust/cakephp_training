@@ -2,15 +2,16 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Coupons Controller
+ */
+class CouponsController extends AppController{
+
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('add');
 	}
-
-/**
- * 
- */
-class CouponsController extends AppController{
+	
 /**
  * add method
  * nhập mã giảm giá
