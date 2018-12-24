@@ -33,6 +33,7 @@
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 	Router::connect('/doi-mat-khau', array('controller' => 'users', 'action' => 'change_password'));
 	Router::connect('/cap-nhat-thong-tin', array('controller' => 'users', 'action' => 'change_info'));
+	Router::connect('/lich-su-mua-hang', array('controller' => 'orders', 'action' => 'history'));
 	Router::connect('/gio-hang', array('controller' => 'books', 'action' => 'view_cart'));
 	Router::connect('/tac-gia', array('controller' => 'writers', 'action' => 'index'));
 	Router::connect('/:book_title', array('controller' => 'books', 'action' => 'view'), array('pass' => array('book_title')));

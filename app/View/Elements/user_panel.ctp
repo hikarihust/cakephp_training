@@ -6,7 +6,7 @@
 		<ul>
 			<li><?= $this->Html->link('Cập nhật thông tin', '/cap-nhat-thong-tin') ?></li>
 			<li><?= $this->Html->link('Đổi mật khẩu', '/doi-mat-khau') ?></li>
-			<li><a href="">Lịch sử mua hàng</a></li>
+			<li><?= $this->Html->link('Lịch sử mua hàng', '/lich-su-mua-hang') ?></li>
 			<li><?= $this->Html->link('Đăng xuất', '/logout') ?></li>
 		</ul>
 	</div>
