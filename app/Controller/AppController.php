@@ -41,7 +41,7 @@ class AppController extends Controller {
 	);
 
 	public function beforeFilter(){
-		$this->Auth->allow('register', 'menu', 'view', 'index', 'latest_books', 'add_to_cart', 'view_cart', 'empty_cart', 'update', 'remove', 'get_keyword', 'search');
+		$this->Auth->allow('register', 'menu', 'view', 'index', 'best_seller', 'latest_books', 'add_to_cart', 'view_cart', 'empty_cart', 'update', 'remove', 'get_keyword', 'search');
 		$this->set('user_info', $this->get_user());
 	}
 

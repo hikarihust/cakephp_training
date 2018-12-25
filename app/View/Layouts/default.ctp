@@ -44,11 +44,13 @@
 
 	      <div class="nav-collapse collapse">
 	        <ul class="nav navbar-nav">
-	          <li class="active">
-	          	<?= $this->Html->link('Sách mới', '/sach-moi') ?>
-	          </li>
-	          <li><a href="#ban-chay">Sách bán chạy</a></li>
-	          <li><a href="#lien-he">Liên hệ</a></li>
+		        <li class="active">
+		        	<?= $this->Html->link('Sách mới', '/sach-moi') ?>
+		        </li>
+	          	<li>
+	          		<?= $this->Html->link('Sách bán chạy', '/sach-ban-chay') ?>
+	          	</li>
+	          	<li><a href="#lien-he">Liên hệ</a></li>
 	        </ul>
 	        <ul class="nav navbar-nav pull-right">
 				<?= $this->Form->create('Book', array('url' => array('controller' => 'books', 'action' => 'get_keyword'), 'type' => 'post', 'novalidate' => true, 'class' => 'navbar-form search')); ?>

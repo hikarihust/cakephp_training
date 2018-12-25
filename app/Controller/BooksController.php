@@ -235,6 +235,9 @@ class BooksController extends AppController{
 		// Truy van du lieu tren Model
 		$books = $this->Book->latest();
 		$this->set('books', $books);
+		// best seller
+		$best_seller = $this->Book->best_seller();
+		$this->set('best_seller', $best_seller);
 		$this->set('title_for_layout', 'Home');
 	}
 
@@ -257,6 +260,16 @@ class BooksController extends AppController{
 		$books = $this->paginate();
 		$this->set('books', $books);
 		$this->set('title_for_layout', 'Sách mới');
+	}
+
+/**
+ * best_seller method
+ * hiển thị sách bán chay 
+ */
+	public function best_seller(){
+		$books = $this->Book->best_seller(16);
+		$this->set('title_for_layout', 'Sách bán chạy');
+		$this->set('books', $books);
 	}
 
 /**

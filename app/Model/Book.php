@@ -61,4 +61,19 @@ class Book extends AppModel{
 			))
 		));
 	}
+
+	public function best_seller($limit = 4){
+		return $this->find('all', array(
+			'fields' => array('id', 'title', 'image', 'sale_price', 'slug'),
+			'condition' => array(
+				'Book.hot' => 1,
+				'Book.published' =>1
+			),
+			'order' => 'rand()',
+			'limit' => $limit,
+			'contain' => array('Writer' => array(
+				'fields' => array('name', 'slug')
+			))
+		));
+	}
 }
