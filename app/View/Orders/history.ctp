@@ -34,7 +34,7 @@
 							<span class="label">Hủy</span>
 						<?php endif ?>
 					</td>
-					<td><a href="#">Xem</a></td>
+					<td><?= $this->Html->link('Xem', '/don-hang/'.$order['Order']['id']) ?></td>
 				</tr>
 			<?php endforeach ?>
 		</tbody>

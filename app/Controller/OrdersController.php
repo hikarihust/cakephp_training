@@ -18,6 +18,30 @@ class OrdersController extends AppController{
 	}
 
 /**
+ * chi tiết đơn hàng
+ */
+	public function detail($id = null){
+		$order = $this->Order->findById($id);
+		if (!empty($order)) {
+			$user_info = $this->get_user();
+			if ($user_info['id'] == $order['Order']['user_id']) {
+				$this->set('order', $order);
+				if ($order['Order']['status'] == 1) {
+					$books = json_decode($order['Order']['order_info']);
+					$this->loadModel('Book');
+					foreach ($books as $book) {
+						$this->Book->recursive = -1;
+						$result = $this->Book->findById($book->id);
+						$link[$book->id] = $result['Book']['link_download'];
+					}
+					$this->set('link', $link);
+				}
+			}
+		}
+		$this->set('title_for_layout', 'Chi tiết đơn hàng');
+	}
+
+/**
  * checkout method
  * thanh toán đơn hàng và lưu thông tin đơn hàng
  */
