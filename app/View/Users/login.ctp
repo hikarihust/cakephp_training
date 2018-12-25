@@ -19,6 +19,7 @@
 				<div class="controls">
 					<hr>
 					<?= $this->Form->button('Đăng nhập', array('type' => 'submit', 'class' => 'col-lg-2 btn btn-primary')) ?>
+					<?= $this->Html->link('Quên mật khẩu?', '/quen-mat-khau', array('class' => 'forgot')) ?>
 				</div>
 			</div>
 		</form>

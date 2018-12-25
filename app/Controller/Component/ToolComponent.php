@@ -28,4 +28,14 @@ class ToolComponent extends Component{
 			return false;
 		}
 	}
+
+/**
+ * generate code dùng cho forgot password
+ * code sinh ra là 1 chuỗi ngẫu nhiên generate ra ngay lúc đó
+ */
+	public function generate_code(){
+		$random_number = rand(1000000,9999999);
+	    $code = md5($random_number);
+	    return $code;
+	}
 }

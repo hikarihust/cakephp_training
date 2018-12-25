@@ -8,6 +8,25 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
 /**
+ * forgot password - quen mat khau
+ */
+	public function forgot(){
+		$this->set('title_for_layout', 'Quên mật khẩu');
+		if ($this->request->is('post')) {
+			$user = $this->User->findByEmail($this->request->data['User']['email']);
+			if (!empty($user)) {
+				$code = $this->Tool->generate_code();
+				$link_confirm = 'http://localhost/cakephp_training/xac-nhan'.$code;
+				$this->User->id = $user['User']['id'];
+				$this->User->saveField('code', $code);
+				$this->Session->setFlash('Vui lòng kiểm tra hộp thư để xác nhận yêu cầu - '.$link_confirm, 'default', array('class' => 'alert alert-success'), 'forgot');
+			}else{
+				$this->Session->setFlash('Email này chưa được đăng ký trên trang web của chúng tôi', 'default', array('class' => 'alert alert-danger'), 'forgot');
+			}
+		}
+	}
+
+/**
  * change_info - cập nhật thông tin người dùng
  */
 	public function change_info(){
