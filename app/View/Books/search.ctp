@@ -14,7 +14,7 @@
 <!-- Hiển thị lỗi xác thực dữ liệu khi nhập keyword để tìm kiếm -->
 <?php if(isset($errors)): ?>
 <div class="panel">
-	<?= $this->element('errors', array('errors', $errors)) ?>
+	<?= $this->element('errors', array('errors' => $errors)) ?>
 </div> 	
 <?php endif; ?>
 

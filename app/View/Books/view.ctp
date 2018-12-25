@@ -103,7 +103,7 @@
 			<h4>Gửi nhận xét:</h4>
 			<?php if (!empty($user_info)): ?>
 				<?php if(isset($errors)): ?>
-					<?= $this->element('errors', array('errors', $errors)) ?>
+					<?= $this->element('errors', array('errors' => $errors)) ?>
 				<?php endif; ?>
 				<?php echo $this->Session->flash(); ?>
 				<?= $this->Form->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'type' => 'post', 'novalidate' => true, 'class' => 'commentform')); ?>

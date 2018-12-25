@@ -8,7 +8,7 @@
 			<?= $this->Paginator->sort('created', 'cũ/mới') ?>
 		</small>
 	</h4>
-	<?= $this->element('books', array('books', $books)) ?>
+	<?= $this->element('books', array('books' => $books)) ?>
 </div> <!-- end element -->
 
 <!-- pagination -->
