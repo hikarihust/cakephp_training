@@ -1,6 +1,7 @@
 <?php 
 
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 
 /**
  * 
@@ -19,6 +20,12 @@ class UsersController extends AppController{
 				$link_confirm = 'http://localhost/cakephp_training/xac-nhan/'.$code;
 				$this->User->id = $user['User']['id'];
 				$this->User->saveField('code', $code);
+				//gởi email link xác nhận
+				// $email = new CakeEmail();
+				// $email->from(array('vudinhquang22021989@gmail.com' => 'quang'))
+				// 	->to(array($user['User']['email'] => $user['User']['name']))
+				// 	->subject('Xác nhận thay đổi mật khẩu')
+				// 	->send('Bạn vừa yêu cầu thay đổi mật khẩu, vui lòng nhấn vào link để xác nhận: '.$link_confirm);
 				$this->Session->setFlash('Vui lòng kiểm tra hộp thư để xác nhận yêu cầu - '.$link_confirm, 'default', array('class' => 'alert alert-success'), 'forgot');
 			}else{
 				$this->Session->setFlash('Email này chưa được đăng ký trên trang web của chúng tôi', 'default', array('class' => 'alert alert-danger'), 'forgot');
