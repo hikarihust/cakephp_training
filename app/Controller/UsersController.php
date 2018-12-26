@@ -35,6 +35,20 @@ class UsersController extends AppController{
 			$user = $this->User->findByCode($code);
 			if (!empty($user)) {
 				$confirm = true;
+				if ($this->request->is('post')) {
+					$this->User->set($this->request->data);
+					if ($this->User->validates()) {
+						if ($this->update_password($user['User']['id'])) {
+							$this->User->updateAll(array('User.code' => null), array('User.id' => $user['User']['id']));
+							$this->Session->setFlash('Đăng nhập với mật khẩu mới', 'default', array('class' => 'alert alert-info'), 'auth');
+							$this->redirect('/login');
+						}else{
+							$this->Session->setFlash('Đã có lỗi xảy ra!', 'default', array('class' => 'alert alert-danger'), 'auth');
+						}
+					}else{
+						$this->set('errors', $this->User->validationErrors);
+					}
+				}
 			}
 		}
 		$this->set('confirm', $confirm);
@@ -101,6 +115,21 @@ class UsersController extends AppController{
 		$this->set('title_for_layout', 'Đăng ký');
 	}
 
+
+
+/**
+ * update_password - cập nhật mật khẩu
+ */
+	private function update_password($id){
+		$this->User->id = $id;
+		$password = $this->request->data['User']['password'];
+		if ($this->User->saveField('password', $password)) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 /**
  * change_password - đổi mật khẩu
  */
@@ -109,9 +138,7 @@ class UsersController extends AppController{
 			$this->User->set($this->request->data);
 			if ($this->User->validates()) {
 				$user_info = $this->get_user();
-				$this->User->id = $user_info['id'];
-				$password = $this->request->data['User']['password'];
-				if ($this->User->saveField('password', $password)) {
+				if ($this->update_password($user_info['id'])) {
 					$this->Session->setFlash('Đã lưu thành công!', 'default', array('class' => 'alert alert-info'));
 				}else{
 					$this->Session->setFlash('Có lỗi xảy ra, vui lòng thử lại!', 'default', array('class' => 'alert alert-danger'));

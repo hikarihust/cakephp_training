@@ -57,7 +57,6 @@ class User extends AppModel{
 		'confirm' => array(
 			'notBlank' => array(
 				'rule'    => array('comparison', '!=', 0),
-				'required' => true,
 				'message' => 'Vui lòng check vào ô đồng ý điều khoản của trang web để đăng ký.'
 			)
 		)
