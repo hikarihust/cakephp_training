@@ -34,6 +34,7 @@
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 	Router::connect('/doi-mat-khau', array('controller' => 'users', 'action' => 'change_password'));
 	Router::connect('/quen-mat-khau', array('controller' => 'users', 'action' => 'forgot'));
+	Router::connect('/xac-nhan/:code', array('controller' => 'users', 'action' => 'confirm'), array('pass' => array('code')));
 	Router::connect('/cap-nhat-thong-tin', array('controller' => 'users', 'action' => 'change_info'));
 	Router::connect('/lich-su-mua-hang', array('controller' => 'orders', 'action' => 'history'));
 	Router::connect('/don-hang/:id', array('controller' => 'orders', 'action' => 'detail'), array('pass'=>array('id')));

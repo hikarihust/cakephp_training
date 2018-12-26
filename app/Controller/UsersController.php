@@ -16,7 +16,7 @@ class UsersController extends AppController{
 			$user = $this->User->findByEmail($this->request->data['User']['email']);
 			if (!empty($user)) {
 				$code = $this->Tool->generate_code();
-				$link_confirm = 'http://localhost/cakephp_training/xac-nhan'.$code;
+				$link_confirm = 'http://localhost/cakephp_training/xac-nhan/'.$code;
 				$this->User->id = $user['User']['id'];
 				$this->User->saveField('code', $code);
 				$this->Session->setFlash('Vui lòng kiểm tra hộp thư để xác nhận yêu cầu - '.$link_confirm, 'default', array('class' => 'alert alert-success'), 'forgot');
@@ -24,6 +24,21 @@ class UsersController extends AppController{
 				$this->Session->setFlash('Email này chưa được đăng ký trên trang web của chúng tôi', 'default', array('class' => 'alert alert-danger'), 'forgot');
 			}
 		}
+	}
+
+/**
+ * confirm - xác nhận yêu cầu đổi mật khẩu khi quên mật khẩu
+ */
+	public function confirm($code = null){
+		$confirm = false;
+		if (!empty($code)) {
+			$user = $this->User->findByCode($code);
+			if (!empty($user)) {
+				$confirm = true;
+			}
+		}
+		$this->set('confirm', $confirm);
+		$this->set('title_for_layout', 'Yêu cầu đổi mật khẩu mới');
 	}
 
 /**
