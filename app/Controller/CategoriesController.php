@@ -12,9 +12,9 @@ class CategoriesController extends AppController{
  */
 	public function menu(){
 		if ($this->request->is('requested')) {
-			$categories = $this->Category->find('all', array(
+			$categories = $this->Category->find('threaded', array(
 				'recursive' => -1,
-				'order' => array('name' => 'asc')
+				'order' => array('lft' => 'asc')
 			));
 			return $categories;
 		}
