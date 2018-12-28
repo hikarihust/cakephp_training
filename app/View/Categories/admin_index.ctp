@@ -1,9 +1,8 @@
 <div class="categories index">
 	<h2><?php echo __('Danh mục sách'); ?></h2>
 	<div class="submenu">
-		<?php echo $this->Html->link(__('New Category'), array('action' => 'add')) ?>
-		<?php echo $this->Html->link(__('List Books'), array('controller' => 'books','action' => 'index')) ?>
-		<?php echo $this->Html->link(__('New Books'), array('controller' => 'books','action' => 'add')) ?>
+		<?php echo $this->Html->link(__('Thêm danh mục'), array('action' => 'add')) ?>
+		<?php echo $this->Html->link(__('Thêm sách'), array('controller' => 'books','action' => 'add')) ?>
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
@@ -40,7 +39,7 @@
 	<?php 
 		echo $this->Paginator->prev('< '.__('previous'), array(), null, array('class' => 'prev disabled'));
 		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next('> '.__('next'), array(), null, array('class' => 'next disabled'));
+		echo $this->Paginator->next(__('next').' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
 </div>

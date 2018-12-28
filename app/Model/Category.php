@@ -2,7 +2,7 @@
 
 App::uses('AppModel', 'Model');
 class Category extends AppModel{
-	public $actsAs = array('Containable');
+	public $actsAs = array('Containable', 'Tree');
 	public $useTable = 'categories';
 	public $validate = array();
 

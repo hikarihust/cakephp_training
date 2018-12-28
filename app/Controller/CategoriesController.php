@@ -64,8 +64,28 @@ class CategoriesController extends AppController{
  * @return void
  */
 	public function admin_index() {
+		// $this->Category->recover();
 		$this->Category->recursive = 0;
 		$this->set('categories', $this->paginate());
+	}
+
+/**
+ * view method
+ *
+ * @return void
+ */
+	public function admin_add() {
+		if ($this->request->is('post')) {
+			$this->Category->create();
+			if ($this->Category->save($this->request->data)) {
+				$this->Session->setFlash(__('Đã tạo danh mục mới thành công!'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!.'));
+			}
+		}
+		$categories = $this->Category->generateTreeList();
+		$this->set('categories',$categories);
 	}
 
 }
