@@ -32,6 +32,7 @@ class Book extends AppModel{
 		'Comment' => array(
 			'className' => 'Comment',
 			'foreignKey' => 'book_id',
+			'dependent' => true
 		)
 	);
 

@@ -6,21 +6,29 @@
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo "STT"; ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('slug'); ?></th>
 			<th><?php echo $this->Paginator->sort('description'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
+	<?php $i = 1; ?>
 	<?php foreach ($categories as $category): ?>
 	<tr>
-		<td><?php echo h($category['Category']['id']); ?>&nbsp;</td>
-		<td><?php echo h($category['Category']['name']); ?>&nbsp;</td>
+		<td><?php echo $i++; ?>&nbsp;</td>
+		<td>
+			<?php if ($category['Category']['parent_id'] != null): ?>
+				+
+			<?php endif ?>
+			<?php echo $this->Html->link($category['Category']['name'],'/danh-muc/'.$category['Category']['slug']); ?>&nbsp;
+		</td>
 		<td><?php echo h($category['Category']['slug']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['description']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['created']); ?>&nbsp;</td>
 		<td class="actions">
+			<?php echo $this->Form->postLink('Lên', array('controller'=> 'categories', 'action' => 'up', $category['Category']['id'])) ?>
+			<?php echo $this->Form->postLink('Xuống', array('controller'=> 'categories', 'action' => 'down', $category['Category']['id'])) ?>
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $category['Category']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $category['Category']['id']), null, __('Bạn có đồng ý xóa tất cả những quyển sách bên trong danh mục %s hay không?', $category['Category']['name'])); ?>

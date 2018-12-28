@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-$description = 'Admin';
+$description = 'Admin - Home';
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +40,7 @@ $description = 'Admin';
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($description, '/'); ?> <small class="admin-info">Chào <strong><?php echo $user_info['fullname'] ?></strong>! <?php echo $this->Html->link('Thoát','/logout'); ?></small></h1>
+			<h1><?php echo $this->Html->link($description, '/admin'); ?> <small class="admin-info">Chào <strong><?php echo $user_info['fullname'] ?></strong>! <?php echo $this->Html->link('Thoát','/logout'); ?></small></h1>
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>

@@ -15,6 +15,7 @@ class Category extends AppModel{
 		'Book' => array(
 			'className' => 'Book',
 			'foreignKey' => 'category_id',
+			'dependent' => true
 		)
 	);
 }

@@ -65,7 +65,10 @@ class CategoriesController extends AppController{
  */
 	public function admin_index() {
 		// $this->Category->recover();
-		$this->Category->recursive = 0;
+		$this->paginate = array(
+			'order' => array('lft' => 'asc')
+		);
+		$this->Category->recursive = -1;
 		$this->set('categories', $this->paginate());
 	}
 
@@ -112,6 +115,53 @@ class CategoriesController extends AppController{
 		}
 		$categories = $this->Category->generateTreeList();
 		$this->set('categories',$categories);
+	}
+
+/**
+ * delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_delete($id = null) {
+		$this->Category->id = $id;
+		if (!$this->Category->exists()) {
+			throw new NotFoundException(__('Không tìm thấy danh mục này!'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->Category->removeFromTree($id,true)) {
+			$this->Session->setFlash(__('Đã xóa danh mục thành công!'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau!'));
+		$this->redirect(array('action' => 'index'));
+	}
+
+/**
+ * up - Chuyển danh mục lên
+ */
+	public function admin_up($id = null){
+		if ($this->request->is('post')) {
+			$this->Category->id = $id;
+			if ($this->Category->exists()) {
+				$this->Category->moveUp($id, 1);
+			}
+		}
+		$this->redirect($this->referer());
+	}
+
+/**
+ * down - Chuyển danh mục xuống
+ */
+	public function admin_down($id = null){
+		if ($this->request->is('post')) {
+			$this->Category->id = $id;
+			if ($this->Category->exists()) {
+				$this->Category->moveDown($id, 1);
+			}
+		}
+		$this->redirect($this->referer());
 	}
 
 }
