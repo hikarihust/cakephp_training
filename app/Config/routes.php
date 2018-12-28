@@ -27,6 +27,7 @@
  */
 	// Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 	Router::connect('/', array('controller' => 'books', 'action' => 'index'));
+	Router::connect('/admin', array('controller' => 'categories', 'action' => 'index', 'admin' => true));
 	Router::connect('/sach-moi', array('controller' => 'books', 'action'=>'latest_books'));
 	Router::connect('/sach-ban-chay', array('controller' => 'books', 'action'=>'best_seller'));
 	Router::connect('/dang-ky',array('controller'=>'users','action'=>'register'));

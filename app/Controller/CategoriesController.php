@@ -56,4 +56,16 @@ class CategoriesController extends AppController{
 		$this->set('books',$books);
 	}
 
+// --------------------------------admin-------------------------------------//
+
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function admin_index() {
+		$this->Category->recursive = 0;
+		$this->set('categories', $this->paginate());
+	}
+
 }

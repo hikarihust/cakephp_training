@@ -43,6 +43,9 @@ class AppController extends Controller {
 	public function beforeFilter(){
 		$this->Auth->allow('confirm', 'forgot', 'register', 'menu', 'view', 'index', 'best_seller', 'latest_books', 'add_to_cart', 'view_cart', 'empty_cart', 'update', 'remove', 'get_keyword', 'search');
 		$this->set('user_info', $this->get_user());
+		if (substr($this->request->params['action'], 0, 6) == 'admin_') {
+			$this->layout = 'admin';
+		}
 	}
 
 	public function get_user(){
