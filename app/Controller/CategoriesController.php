@@ -88,4 +88,30 @@ class CategoriesController extends AppController{
 		$this->set('categories',$categories);
 	}
 
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Category->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy danh mục này'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Category->save($this->request->data)) {
+				$this->Session->setFlash(__('Đã cập nhật danh mục thành công.'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+			}
+		} else {
+			$options = array('conditions' => array('Category.' . $this->Category->primaryKey => $id));
+			$this->request->data = $this->Category->find('first', $options);
+		}
+		$categories = $this->Category->generateTreeList();
+		$this->set('categories',$categories);
+	}
+
 }
