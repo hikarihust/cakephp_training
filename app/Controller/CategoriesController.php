@@ -90,12 +90,18 @@ class CategoriesController extends AppController{
 				);
 			if ($this->Category->validates()) {
 				$this->check_slug('Category', 'name');
-				$this->Category->create();
-				if ($this->Category->save($this->request->data)) {
-					$this->Session->setFlash(__('Đã tạo danh mục mới thành công!'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!.'));
+				App::uses('Folder', 'Utility');
+				$folder = new Folder();
+				if ($folder->create(APP.'webroot/files/'.$this->request->data['Category']['slug'])) {
+					$this->Category->create();
+					if ($this->Category->save($this->request->data)) {
+						$this->Session->setFlash(__('Đã tạo danh mục mới thành công!'));
+						$this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!.'));
+					}
+				}else{
+					$this->Session->setFlash(__('Không tạo được thư mục, vui lòng thử lại sau!'));
 				}
 			}else{
 				$this->set('errors', $this->Category->validationErrors);
