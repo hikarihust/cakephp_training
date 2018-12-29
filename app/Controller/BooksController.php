@@ -9,7 +9,8 @@ class BooksController extends AppController{
 
 	public $paginate = array(
 		'order' => array('created' => 'desc'),
-		'limit' => 5
+		'limit' => 5,
+		'paramType' => 'querystring'
 	);
 
 	/**
@@ -343,4 +344,105 @@ class BooksController extends AppController{
 	// 		}
 	// 	}
 	// }
+
+// ------------------------------------------admin----------------------------------------------//
+
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function admin_index(){
+		$this->paginate = array(
+				'order' => array('Book.created' => 'desc'),
+				'limit' => 5,
+				'paramType' => 'querystring'
+			);
+		$this->Book->recursive = 0;
+		$this->set('books', $this->paginate());
+	}
+
+/**
+ * view method
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_view($id = null) {
+		$options = array(
+			'conditions' => array(
+				'Book.id' => $id
+			),
+			'contain' => array(
+				'Writer'=>array('name','slug')
+				),
+			);
+		$book = $this->Book->find('first', $options);
+		//pr($book);
+		if (empty($book)) {
+			throw new NotFoundException(__('Không tìm thấy quyển sách này!'));
+		}
+		$this->set('book', $book);
+		//hiển thị comments
+		$this->loadModel('Comment');
+		$comments = $this->Comment->find('all',array(
+			'conditions' => array(
+				'book_id' => $book['Book']['id']
+				),
+			'order' => array('Comment.created'=>'asc'),
+			'contain' => array(
+				'User' => array('fullname')
+				)
+			));
+		//pr($comments);
+		$this->set('comments',$comments);
+	}
+/**
+ * add method
+ *
+ * @return void
+ */
+	public function admin_add() {
+		if ($this->request->is('post')) {
+			$this->Book->create();
+			if ($this->Book->save($this->request->data)) {
+				$this->Session->setFlash(__('Đã lưu thành công!'));
+				$this->redirect(array('action'=> 'index'));
+			}else{
+				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+			}
+		}
+		$categories = $this->Book->Category->generateTreeList();
+		$writers = $this->Book->Writer->find('list');
+		$this->set(compact('categories', 'writers'));
+	}
+
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Book->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy quyển sách này'));
+		}
+
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Book->save($this->request->data)) {
+				$this->Session->setFlash(__('Đã cập nhật thành công!'));
+				$this->redirect(array('action' => 'index'));
+			}else{
+				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+			}
+		}else{
+			$options = array('conditions' => array('Book.id' => $id));
+			$this->request->data = $this->Book->find('first', $options);
+		}
+		$writers = $this->Book->Writer->find('list');
+		$categories = $this->Book->Category->generateTreeList();
+		$this->set(compact('categories', 'writers'));
+	}
+
 }

@@ -1,0 +1,2 @@
+<td><?php echo $this->Time->format('d-m-Y H:i:s',$object['created'],null,'Asia/Ho_Chi_Minh'); ?>&nbsp;</td>
+<td><?php echo $this->Time->format('d-m-Y H:i:s',$object['modified'],null,'Asia/Ho_Chi_Minh'); ?>&nbsp;</td>
