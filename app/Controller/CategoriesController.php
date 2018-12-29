@@ -1,6 +1,7 @@
 <?php 
 
 App::uses('AppController', 'Controller');
+App::uses('Folder', 'Utility');
 
 /**
  * 
@@ -90,7 +91,7 @@ class CategoriesController extends AppController{
 				);
 			if ($this->Category->validates()) {
 				$this->check_slug('Category', 'name');
-				App::uses('Folder', 'Utility');
+				$this->request->data['Category']['folder'] = $this->request->data['Category']['slug'];
 				$folder = new Folder();
 				if ($folder->create(APP.'webroot/files/'.$this->request->data['Category']['slug'])) {
 					$this->Category->create();
@@ -166,11 +167,17 @@ class CategoriesController extends AppController{
 			throw new NotFoundException(__('Không tìm thấy danh mục này!'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Category->removeFromTree($id,true)) {
-			$this->Session->setFlash(__('Đã xóa danh mục thành công!'));
-			$this->redirect(array('action' => 'index'));
+		$category = $this->Category->findById($id);
+		$folder = new Folder(APP.'webroot/files/'.$category['Category']['folder']);
+		if ($folder->delete()) {
+			if ($this->Category->removeFromTree($id,true)) {
+				$this->Session->setFlash(__('Đã xóa danh mục thành công!'));
+				$this->redirect(array('action' => 'index'));
+			}
+		}else{
+			$this->Session->setFlash(__('Không xóa được thư mục, vui lòng thử lại sau!'));
 		}
-		$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau!'));
+
 		$this->redirect(array('action' => 'index'));
 	}
 
