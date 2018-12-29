@@ -1,6 +1,7 @@
 <?php 
 
 App::uses('AppController', 'Controller');
+App::uses('File', 'Utility');
 
 /**
  * 
@@ -418,23 +419,60 @@ class BooksController extends AppController{
 	}
 
 /**
+ * Upload hinh anh tren trang web
+ */
+	private function uploadFile($folder = null){
+		$file = new File($this->request->data['Book']['image']['tmp_name']);
+		$file_name = $this->request->data['Book']['image']['name'];
+		if ($file->copy(APP.'webroot/files/'.$folder.'/'.$file_name)) {
+			return true;
+		}else{
+			return false;
+		}
+	} 
+
+/**
  * edit method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
+
 	public function admin_edit($id = null) {
 		if (!$this->Book->exists($id)) {
 			throw new NotFoundException(__('Không tìm thấy quyển sách này'));
 		}
 
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Book->save($this->request->data)) {
-				$this->Session->setFlash(__('Đã cập nhật thành công!'));
-				$this->redirect(array('action' => 'index'));
+			$this->Book->set($this->request->data);
+			unset($this->Book->validate['slug']);
+			if ($this->Book->validates()) {
+				$this->check_slug('Book', 'name');
+				$this->loadModel('Category');
+				$category = $this->Category->findById($this->request->data['Book']['category_id']);
+				$check = true;
+				if (!empty($this->request->data['Book']['image']['name'])) {
+					if ($this->uploadFile($category['Category']['folder'])) {
+						$location = '/files/'.$category['Category']['folder'].'/'.$this->request->data['Book']['image']['name'];
+						$this->request->data['Book']['image'] = $location;
+					}else{
+						$this->Session->setFlash(__('Không upload được hình ảnh, vui lòng thử lại sau!.'));
+						$check = false;
+					}
+				}else{
+					unset($this->request->data['Book']['image']);
+				}
+				if ($check) {
+					if ($this->Book->saveAll($this->request->data)) {
+						$this->Session->setFlash(__('Cập nhật sách thành công!'));
+						$this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+					}
+				}
 			}else{
-				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+				$this->set('errors', $this->Book->validationErrors);
 			}
 		}else{
 			$options = array('conditions' => array('Book.id' => $id));

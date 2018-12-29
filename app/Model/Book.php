@@ -8,6 +8,80 @@ class Book extends AppModel{
 		'keyword' =>array(
 			'rule' => array('notBlank'),
 			'message' => 'Bạn phải gõ từ khóa để tìm kiếm.'
+		),
+		'title' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Vui lòng điền tên quyển sách'
+			)
+		),
+		'slug' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Phần slug không được để trống',
+			),
+			'unique' => array(
+				'rule'=> 'isUnique',
+				'message'=>'Slug cho quyển sách này đã có, vui lòng đổi slug khác.'
+			),
+		),
+		'info' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Phần nội dung sách không được để trống'
+			),
+		),
+		'price' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Phần giá sách không được để trống',
+			),
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => 'Giá sách phải là kiểu số',
+			),
+		),
+		'sale_price' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Phần giá bán sách không được để trống',
+			),
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => 'Giá bán sách phải là kiểu số',
+			),
+		),
+		'pages' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Số trang sách không được để trống',
+			),
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => 'Số trang sách phải là kiểu số',
+			),
+		),
+		'publisher' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Nhà xuất bản không được để trống',
+			)
+		),
+		'publish_date' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Ngày xuất bản không được để trống',
+			),
+			'date' => array(
+				'rule' => array('date'),
+				'message' => 'Ngày xuất bản không đúng định dạng',
+			)
+		),
+		'link_download' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Link download không được để trống'
+			),
 		)
 	);
 
