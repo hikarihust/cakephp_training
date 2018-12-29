@@ -116,14 +116,30 @@ class CategoriesController extends AppController{
 		if (!$this->Category->exists($id)) {
 			throw new NotFoundException(__('Không tìm thấy danh mục này'));
 		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Category->save($this->request->data)) {
-				$this->Session->setFlash(__('Đã cập nhật danh mục thành công.'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+			$this->Category->set($this->request->data);
+			$this->Category->validate = array(
+					'name' => array(
+						'notBlank' => array(
+							'rule' => array('notBlank'),
+							'message' => 'Tên danh mục không được để trống'
+						)
+					),
+				);
+			if ($this->Category->validates()) {
+				$this->check_slug('Category', 'name');
+				$this->Category->id = $id;
+				if ($this->Category->save($this->request->data)) {
+					$this->Session->setFlash(__('Cập nhật danh mục mới thành công!'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+				}
+			}else{
+				$this->set('errors', $this->Category->validationErrors);
 			}
-		} else {
+		}else{
 			$options = array('conditions' => array('Category.' . $this->Category->primaryKey => $id));
 			$this->request->data = $this->Category->find('first', $options);
 		}
