@@ -55,4 +55,12 @@ class AppController extends Controller {
 			return $this->Auth->user();
 		}
 	}
+
+	public function check_slug($model,  $name, $slug_field = 'slug'){
+		if(empty($this->request->data[$model][$slug_field])){
+			$this->request->data[$model][$slug_field] = $this->Tool->slug($this->request->data[$model][$name]);
+		}else{
+			$this->request->data[$model][$slug_field] = $this->Tool->slug($this->request->data[$model][$slug_field]);
+		}
+	}
 }

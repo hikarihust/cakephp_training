@@ -171,3 +171,18 @@ th a {
 	text-decoration: none;
 	color: #333;
 }
+
+.alert {
+    padding: 10px 35px 10px 15px;
+    margin-bottom: 20px;
+    color: #c09853;
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}

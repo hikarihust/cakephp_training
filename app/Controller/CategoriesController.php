@@ -79,12 +79,26 @@ class CategoriesController extends AppController{
  */
 	public function admin_add() {
 		if ($this->request->is('post')) {
-			$this->Category->create();
-			if ($this->Category->save($this->request->data)) {
-				$this->Session->setFlash(__('Đã tạo danh mục mới thành công!'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!.'));
+			$this->Category->set($this->request->data);
+			$this->Category->validate = array(
+					'name' => array(
+						'notBlank' => array(
+							'rule' => array('notBlank'),
+							'message' => 'Tên danh mục không được để trống'
+						)
+					),
+				);
+			if ($this->Category->validates()) {
+				$this->check_slug('Category', 'name');
+				$this->Category->create();
+				if ($this->Category->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã tạo danh mục mới thành công!'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!.'));
+				}
+			}else{
+				$this->set('errors', $this->Category->validationErrors);
 			}
 		}
 		$categories = $this->Category->generateTreeList();
