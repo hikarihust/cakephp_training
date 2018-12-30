@@ -457,6 +457,31 @@ class BooksController extends AppController{
 	} 
 
 /**
+ * xử lý thông tin tác giả khi cập nhật/thêm sách
+ */
+	private function check_writer($writers_list = null){
+		$this->loadModel('Writer');
+		$writers = explode(', ', $writers_list);
+		foreach ($writers as $writer) {
+			$slug = $this->Tool->slug($writer);
+			$writer_info = $this->Writer->findBySlug($slug);
+			if (empty($writer_info)) {
+				$data = array(
+					'name' => ucwords(trim($writer)),
+					'slug' => $slug,
+					'biography' => 'Đang cập nhật'
+				);
+				$this->Writer->create();
+				$this->Writer->save($data);
+				$save_info[] = $this->Writer->id;
+			}else{
+				$save_info[] = $writer_info['Writer']['id'];
+			}
+		}
+		$this->request->data['Writer']['Writer'] = $save_info;
+	}
+
+/**
  * edit method
  *
  * @throws NotFoundException
@@ -478,7 +503,7 @@ class BooksController extends AppController{
 				$category = $this->Category->findById($this->request->data['Book']['category_id']);
 				$check = true;
 				if (!empty($this->request->data['Book']['image']['name'])) {
-					$result = $this->uploadFile($category['Category']['folder']);
+					$result = $this->uploadFile($category['Categoery']['folder']);
 					if ($result['status']) {
 						$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
 						$this->request->data['Book']['image'] = $location;
@@ -490,6 +515,7 @@ class BooksController extends AppController{
 					unset($this->request->data['Book']['image']);
 				}
 				if ($check) {
+					$this->check_writer($this->request->data['Writer']['Writer']);
 					if ($this->Book->saveAll($this->request->data)) {
 						$this->Session->setFlash(__('Cập nhật sách thành công!'));
 						$this->redirect(array('action' => 'index'));
@@ -503,8 +529,15 @@ class BooksController extends AppController{
 		}else{
 			$options = array('conditions' => array('Book.id' => $id));
 			$this->request->data = $this->Book->find('first', $options);
+			if (!empty($this->request->data['Writer'])) {
+				foreach ($this->request->data['Writer'] as $writer) {
+					$writers_list[] = $writer['name']; 
+				}
+				$writers = implode(', ', $writers_list);
+			}else{
+				$writers = null;
+			}
 		}
-		$writers = $this->Book->Writer->find('list');
 		$categories = $this->Book->Category->generateTreeList();
 		$this->set(compact('categories', 'writers'));
 	}
