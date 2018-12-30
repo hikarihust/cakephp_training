@@ -27,7 +27,8 @@
 		echo $this->Form->input('publisher',array('label'=>'Nhà xuất bản'));
 		echo $this->Form->input('publish_date',array('label'=>'Ngày xuất bản'));
 		echo $this->Form->input('link_download');
-		echo $this->Form->input('published',array('label'=>'Được hiển thị?'));
+		echo $this->Form->input('hot',array('label'=>'Sách bán chạy?', 'div'=> array('class' => 'inline-checkbox')));
+		echo $this->Form->input('published',array('label'=>'Được hiển thị?','div'=>array('class' => 'inline-checkbox')));
 		echo $this->Form->input('Writer',array('label'=>'Tác giả'));	
 	?>
 	</fieldset>

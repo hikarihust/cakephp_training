@@ -14,23 +14,25 @@
 <?php if (isset($errors)): ?>
 	<?= $this->element('errors'); ?>
 <?php endif ?>
-<?php echo $this->Form->create('Book', array('novalidate'=>true,'type'=>'file')); ?>
+<?php echo $this->Form->create('Book', array('novalidate'=>true,'type'=>'file', 'inputDefaults'=>array('error' =>false))); ?>
 	<fieldset>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('category_id',array('label'=>'Danh mục'));
-		echo $this->Form->input('title',array('label'=>'Tên sách', 'error'=> false));
-		echo $this->Form->input('slug', array('error' =>false, 'required' => false));
+		echo $this->Form->input('title',array('label'=>'Tên sách'));
+		echo $this->Form->input('slug', array('required' => false));
 		echo $this->Html->image($this->request->data['Book']['image'], array('width' => 140, 'height'=> 200));
 		echo $this->Form->input('image',array('label'=>false, 'type'=> 'file', 'class' => 'input-upload'));
-		echo $this->Form->input('info',array('label'=>'Nội dung', 'class' => 'ckeditor', 'error' => false));
-		echo $this->Form->input('price',array('label'=>'Giá', 'error'=> false));
-		echo $this->Form->input('sale_price',array('label'=>'Giá bán', 'error'=> false));
-		echo $this->Form->input('pages',array('label'=>'Số trang', 'error'=> false));
-		echo $this->Form->input('publisher',array('label'=>'Nhà xuất bản', 'error'=>false));
-		echo $this->Form->input('publish_date',array('label'=>'Ngày xuất bản', 'error'=> false));
-		echo $this->Form->input('link_download', array('error' =>false));
-		echo $this->Form->input('Writer',array('label'=>'Tác giả'));	
+		echo $this->Form->input('info',array('label'=>'Nội dung', 'class' => 'ckeditor'));
+		echo $this->Form->input('price',array('label'=>'Giá'));
+		echo $this->Form->input('sale_price',array('label'=>'Giá bán'));
+		echo $this->Form->input('pages',array('label'=>'Số trang'));
+		echo $this->Form->input('publisher',array('label'=>'Nhà xuất bản'));
+		echo $this->Form->input('publish_date',array('label'=>'Ngày xuất bản'));
+		echo $this->Form->input('link_download');
+		echo $this->Form->input('Writer',array('label'=>'Tác giả'));
+		echo $this->Form->input('hot',array('label'=>'Sách bán chạy?', 'div'=> array('class' => 'inline-checkbox')));
+		echo $this->Form->input('published',array('label'=>'Được hiển thị?','div'=>array('class' => 'inline-checkbox')));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -190,3 +190,7 @@ th a {
 .input-upload{
 	width: 300px;
 }
+
+.inline-checkbox{
+	display: inline-block;
+}
