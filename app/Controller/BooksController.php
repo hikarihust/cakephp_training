@@ -423,12 +423,21 @@ class BooksController extends AppController{
  */
 	private function uploadFile($folder = null){
 		$file = new File($this->request->data['Book']['image']['tmp_name']);
-		$file_name = $this->request->data['Book']['image']['name'];
+		// $file_name = $this->request->data['Book']['image']['name'];
+		$ext = pathinfo($this->request->data['Book']['image']['name'], PATHINFO_EXTENSION);
+		$file_name = $this->request->data['Book']['slug']. '.'. $ext;
 		if ($file->copy(APP.'webroot/files/'.$folder.'/'.$file_name)) {
-			return true;
+			$result = array(
+				'status' => true,
+				'file_name' => $file_name
+			);
 		}else{
-			return false;
+			$result = array(
+				'status' => false,
+				'file_name' => $file_name
+			);
 		}
+		return $result;
 	} 
 
 /**
@@ -453,8 +462,9 @@ class BooksController extends AppController{
 				$category = $this->Category->findById($this->request->data['Book']['category_id']);
 				$check = true;
 				if (!empty($this->request->data['Book']['image']['name'])) {
-					if ($this->uploadFile($category['Category']['folder'])) {
-						$location = '/files/'.$category['Category']['folder'].'/'.$this->request->data['Book']['image']['name'];
+					$result = $this->uploadFile($category['Category']['folder']);
+					if ($result['status']) {
+						$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
 						$this->request->data['Book']['image'] = $location;
 					}else{
 						$this->Session->setFlash(__('Không upload được hình ảnh, vui lòng thử lại sau!.'));
