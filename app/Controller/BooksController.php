@@ -415,9 +415,10 @@ class BooksController extends AppController{
 				if ($result['status']) {
 					$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
 					$this->request->data['Book']['image'] = $location;
+					$this->check_writer($this->request->data['Writer']['Writer']);
 					$this->Book->create();
 					if ($this->Book->save($this->request->data)) {
-						$this->Session->setFlash(__('Đã lưu thành công!'));
+						$this->Session->setFlash(__('Đã tạo thành công!'));
 						$this->redirect(array('action'=> 'index'));
 					}else{
 						$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
@@ -430,8 +431,9 @@ class BooksController extends AppController{
 			}
 		}
 		$categories = $this->Book->Category->generateTreeList();
-		$writers = $this->Book->Writer->find('list');
-		$this->set(compact('categories', 'writers'));
+		// $writers = $this->Book->Writer->find('list');
+		// $this->set(compact('categories', 'writers'));
+		$this->set(compact('categories'));
 	}
 
 /**
