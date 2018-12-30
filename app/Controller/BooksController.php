@@ -509,4 +509,25 @@ class BooksController extends AppController{
 		$this->set(compact('categories', 'writers'));
 	}
 
+/**
+ * delete method
+ */
+	public function admin_delete($id = null){
+		if ($this->request->is('post')) {
+			$book = $this->Book->findById($id);
+			$file = new File(APP.'webroot/'.$book['Book']['image']);
+			if ($file->delete()) {
+				$this->Book->id = $id;
+				if ($this->Book->delete()) {
+					$this->Session->setFlash(__('Đã xóa thành công.'));
+				}else{
+					$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau!'));
+				}
+			}else{
+				$this->Session->setFlash(__('Không xóa được hình ảnh, vui lòng thử lại sau!'));
+			}
+		}
+		$this->redirect(array('action'=>'index'));
+	}
+	
 }
