@@ -409,30 +409,43 @@ class BooksController extends AppController{
 			unset($this->Book->validate['slug']);
 			if ($this->Book->validates()) {
 				$this->check_slug('Book', 'title');
-				$this->loadModel('Category');
-				$category = $this->Category->findById($this->request->data['Book']['category_id']);
-				$result = $this->uploadFile($category['Category']['folder']);
-				if ($result['status']) {
-					$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
-					$this->request->data['Book']['image'] = $location;
-					$this->check_writer($this->request->data['Writer']['Writer']);
-					$this->Book->create();
-					if ($this->Book->save($this->request->data)) {
-						$this->Session->setFlash(__('Đã tạo thành công!'));
-						$this->redirect(array('action'=> 'index'));
+				$this->Book->validate['slug'] = array(
+					'notBlank' => array(
+						'rule' => array('notBlank'),
+						'message' => 'Phần slug không được để trống',
+					),
+					'unique' => array(
+						'rule'=> 'isUnique',
+						'message'=>'Slug cho quyển sách này đã có, vui lòng đổi slug khác.'
+					)
+				);
+				$this->Book->set($this->request->data);
+				if ($this->Book->validates()) {
+					$this->loadModel('Category');
+					$category = $this->Category->findById($this->request->data['Book']['category_id']);
+					$result = $this->uploadFile($category['Category']['folder']);
+					if ($result['status']) {
+						$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
+						$this->request->data['Book']['image'] = $location;
+						$this->check_writer($this->request->data['Writer']['Writer']);
+						$this->Book->create();
+						if ($this->Book->save($this->request->data)) {
+							$this->Session->setFlash(__('Đã tạo thành công!'));
+							$this->redirect(array('action'=> 'index'));
+						}else{
+							$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+						}
 					}else{
-						$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+						$this->Session->setFlash(__('Bạn chưa upload hình ảnh minh họa cho sách đã tạo!'));
 					}
 				}else{
-					$this->Session->setFlash(__('Bạn chưa upload hình ảnh minh họa cho sách đã tạo!'));
+					$this->set('errors', $this->Book->validationErrors);
 				}
 			}else{
 				$this->set('errors', $this->Book->validationErrors);
 			}
 		}
 		$categories = $this->Book->Category->generateTreeList();
-		// $writers = $this->Book->Writer->find('list');
-		// $this->set(compact('categories', 'writers'));
 		$this->set(compact('categories'));
 	}
 
@@ -484,6 +497,21 @@ class BooksController extends AppController{
 	}
 
 /**
+ * get list tac gia cua sach
+ */
+	private function get_writers($inputWriter = array()){
+		if (!empty($inputWriter)) {
+			foreach ($inputWriter as $writer) {
+				$writers_list[] = $writer['name']; 
+			}
+			$writers = implode(', ', $writers_list);
+		}else{
+			$writers = null;
+		}
+		return $writers;
+	}
+	
+/**
  * edit method
  *
  * @throws NotFoundException
@@ -500,12 +528,12 @@ class BooksController extends AppController{
 			$this->Book->set($this->request->data);
 			unset($this->Book->validate['slug']);
 			if ($this->Book->validates()) {
-				$this->check_slug('Book', 'name');
+				$this->check_slug('Book', 'title');
 				$this->loadModel('Category');
 				$category = $this->Category->findById($this->request->data['Book']['category_id']);
 				$check = true;
 				if (!empty($this->request->data['Book']['image']['name'])) {
-					$result = $this->uploadFile($category['Categoery']['folder']);
+					$result = $this->uploadFile($category['Category']['folder']);
 					if ($result['status']) {
 						$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
 						$this->request->data['Book']['image'] = $location;
@@ -517,13 +545,38 @@ class BooksController extends AppController{
 					unset($this->request->data['Book']['image']);
 				}
 				if ($check) {
+					$slug = $this->request->data['Book']['slug'];
 					$this->check_writer($this->request->data['Writer']['Writer']);
-					if ($this->Book->saveAll($this->request->data)) {
-						$this->Session->setFlash(__('Cập nhật sách thành công!'));
-						$this->redirect(array('action' => 'index'));
-					} else {
-						$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+					$this->Book->validate['slug'] = array(
+						'notBlank' => array(
+							'rule' => array('notBlank'),
+							'message' => 'Phần slug không được để trống',
+						),
+						'unique' => array(
+							'rule'=> 'isUnique',
+							'message'=>'Slug cho quyển sách này đã có, vui lòng đổi slug khác.'
+						)
+					);
+					$this->Book->set($this->request->data);
+					if ($this->Book->validates()) {
+						if ($this->Book->saveAll($this->request->data)) {
+							$this->Session->setFlash(__('Cập nhật sách thành công!'));
+							$this->redirect(array('action' => 'index'));
+						} else {
+							$this->Session->setFlash(__('Không cập nhật được, vui lòng thử lại sau!.'));
+						}
+					}else{
+						if (isset($this->request->data['Book']['image'])) {
+							unlink(APP.'webroot'.$this->request->data['Book']['image']);
+						}
+						$this->set('errors', $this->Book->validationErrors);
 					}
+					$options = array('conditions' => array('Book.id' => $id));
+					$data = $this->Book->find('first', $options);
+					unset($data['Book']['slug']);
+					$this->request->data = $data;
+					$this->request->data['Book']['slug'] = $slug;
+					$writers = $this->get_writers($this->request->data['Writer']);
 				}
 			}else{
 				$this->set('errors', $this->Book->validationErrors);
@@ -531,14 +584,7 @@ class BooksController extends AppController{
 		}else{
 			$options = array('conditions' => array('Book.id' => $id));
 			$this->request->data = $this->Book->find('first', $options);
-			if (!empty($this->request->data['Writer'])) {
-				foreach ($this->request->data['Writer'] as $writer) {
-					$writers_list[] = $writer['name']; 
-				}
-				$writers = implode(', ', $writers_list);
-			}else{
-				$writers = null;
-			}
+			$writers = $this->get_writers($this->request->data['Writer']);
 		}
 		$categories = $this->Book->Category->generateTreeList();
 		$this->set(compact('categories', 'writers'));
