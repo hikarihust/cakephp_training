@@ -65,4 +65,15 @@ class OrdersController extends AppController{
 			$this->redirect('/lich-su-mua-hang');
 		}
 	}
+
+// ----------------------------------------admin-------------------------------------------
+
+/**
+ * index method
+ */
+	public function admin_index(){
+		$this->Order->recursive = 0;
+		$this->set('orders', $this->paginate());
+	}
+
 }
