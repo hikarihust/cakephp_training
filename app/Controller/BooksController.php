@@ -405,12 +405,28 @@ class BooksController extends AppController{
  */
 	public function admin_add() {
 		if ($this->request->is('post')) {
-			$this->Book->create();
-			if ($this->Book->save($this->request->data)) {
-				$this->Session->setFlash(__('Đã lưu thành công!'));
-				$this->redirect(array('action'=> 'index'));
+			$this->Book->set($this->request->data);
+			unset($this->Book->validate['slug']);
+			if ($this->Book->validates()) {
+				$this->check_slug('Book', 'title');
+				$this->loadModel('Category');
+				$category = $this->Category->findById($this->request->data['Book']['category_id']);
+				$result = $this->uploadFile($category['Category']['folder']);
+				if ($result['status']) {
+					$location = '/files/'.$category['Category']['folder'].'/'.$result['file_name'];
+					$this->request->data['Book']['image'] = $location;
+					$this->Book->create();
+					if ($this->Book->save($this->request->data)) {
+						$this->Session->setFlash(__('Đã lưu thành công!'));
+						$this->redirect(array('action'=> 'index'));
+					}else{
+						$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+					}
+				}else{
+					$this->Session->setFlash(__('Bạn chưa upload hình ảnh minh họa cho sách đã tạo!'));
+				}
 			}else{
-				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+				$this->set('errors', $this->Book->validationErrors);
 			}
 		}
 		$categories = $this->Book->Category->generateTreeList();
