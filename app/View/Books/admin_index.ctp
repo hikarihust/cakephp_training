@@ -2,6 +2,7 @@
 	<h2><?php echo __('Sách'); ?></h2>
 	<div class="submenu">
 		<?php echo $this->Html->link(__('Thêm sách'), array('action' => 'add')); ?>
+		<?php echo $this->Html->link(__('Sách bán chạy'), array('action' => 'best_seller')); ?>
 		<?php echo $this->Html->link(__('Thêm danh mục'), array('controller' => 'categories', 'action' => 'add')); ?> 
 		<?php echo $this->Html->link(__('Thêm mã giảm giá'), array('controller' => 'coupons', 'action' => 'add')); ?> 
 		<?php echo $this->Html->link(__('Thêm tác giả'), array('controller' => 'writers', 'action' => 'add')); ?> 

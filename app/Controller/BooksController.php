@@ -610,5 +610,18 @@ class BooksController extends AppController{
 		}
 		$this->redirect(array('action'=>'index'));
 	}
+
+/**
+ * best_seller - Quản lý sách bán chạy
+ */
+	public function admin_best_seller(){
+		$this->paginate = array(
+			'conditions' => array('Book.hot' => 1),
+			'order' => array('Book.created' => 'desc'),
+			'limit' => 5,
+			'paramType' => 'querystring'
+		);
+		$this->set('books', $this->paginate());
+	}
 	
 }
