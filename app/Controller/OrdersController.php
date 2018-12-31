@@ -76,4 +76,51 @@ class OrdersController extends AppController{
 		$this->set('orders', $this->paginate());
 	}
 
+/**
+ * Xử lý nhiều đơn hàng
+ */
+	public function admin_process(){
+		if ($this->request->is('post')) {
+			foreach ($this->request->data['Order']['id'] as $id => $value) {
+				if ($value) {
+					$ids[] = $id;
+				}
+			}
+			if (!empty($ids)) {
+				switch ($this->request->data['Order']['action']) {
+					case 1:
+						if ($this->Order->updateAll(array('Order.status'=>1), array('Order.id'=>$ids))) {
+							$this->Session->setFlash('Đã xử lý đơn hàng thàng công');
+						}else{
+							$this->Session->setFlash('Có lỗi xảy ra, vui lòng thử lại');
+						}
+						break;
+
+					case 2:
+						if ($this->Order->updateAll(array('Order.status'=>0), array('Order.id'=>$ids))) {
+							$this->Session->setFlash('Đã tạm ngưng đơn hàng thàng công');
+						}else{
+							$this->Session->setFlash('Có lỗi xảy ra, vui lòng thử lại');
+						}
+						break;
+
+					case 3:
+						if ($this->Order->updateAll(array('Order.status'=>2), array('Order.id'=>$ids))) {
+							$this->Session->setFlash('Đã hủy đơn hàng thàng công');
+						}else{
+							$this->Session->setFlash('Có lỗi xảy ra, vui lòng thử lại');
+						}
+						break;
+					
+					default:
+						$this->Session->setFlash('Không có xử lý này, vui lòng thử lại');
+						break;
+				}
+			}else{
+				$this->Session->setFlash('Bạn chưa chọn đơn hàng để xử lý');
+			}
+		}
+		$this->redirect(array('action'=> 'index'));
+	}
+
 }
