@@ -165,7 +165,12 @@ class UsersController extends AppController{
 			if ($this->Auth->login()) {
 				$this->redirect($this->Auth->redirectUrl());
 			}else{
-				$this->Session->setFlash('Sai tên đăng nhập hoặc mật khẩu!', 'default', array('class' => 'alert alert-danger'),'auth');
+				$user_info = $this->User->findByUsername($this->request->data['User']['username']);
+				if (!empty($user_info) && $user_info['User']['active'] == 0) {
+					$this->Session->setFlash('Tài khoản của bạn đã bị khóa', 'default', array('class' => 'alert alert-danger'),'auth');
+				}else{
+					$this->Session->setFlash('Sai tên đăng nhập hoặc mật khẩu!', 'default', array('class' => 'alert alert-danger'),'auth');
+				}
 			}
 		}
 		$this->set('title_for_layout', 'Đăng nhập');
@@ -177,4 +182,45 @@ class UsersController extends AppController{
 	public function logout(){
 		$this->redirect($this->Auth->logout());
 	}
+
+// ---------------------------------------admin------------------------------------------
+
+/**
+ * index method
+ */
+
+	public function admin_index(){
+		$this->User->recursive = 0;
+		$this->set('users', $this->paginate());
+	}
+
+/**
+ * lock method - khóa tài khoản user
+ */
+	public function admin_lock($id = null){
+		if ($this->request->is('post')) {
+			if ($this->User->updateAll(array('User.active' =>0), array('User.id'=> $id))) {
+				$this->Session->setFlash(__('Đã khóa tài khoản thành công.'));
+			}
+		}else{
+			$this->Session->setFlash(__('Không khóa được'));
+		}
+		$this->redirect(array('action' => 'index'));
+	}
+
+/**
+ * unlock method - mở khóa tài khoản user
+ */
+	public function admin_unlock($id = null){
+		if ($this->request->is('post')) {
+			if ($this->User->updateAll(array('User.active' =>1), array('User.id'=> $id))) {
+				$this->Session->setFlash(__('Đã mở khóa tài khoản thành công.'));
+			}
+		}else{
+			$this->Session->setFlash(__('Không mở khóa được'));
+		}
+		$this->redirect(array('action' => 'index'));
+	}
+
+
 }

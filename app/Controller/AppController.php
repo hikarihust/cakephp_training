@@ -37,6 +37,11 @@ class AppController extends Controller {
 			'loginAction' => '/login',
 			'authError' => false,
 			'loginRedirect' => '/',
+			'authenticate' => array(
+				'Form' => array(
+					'scope' => array('User.active' => 1)
+				)
+			)
 		)
 	);
 
