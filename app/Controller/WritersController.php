@@ -94,4 +94,43 @@ class WritersController extends AppController{
 		$this->set('writers', $this->paginate());
 	}
 
+/**
+ * add method
+ */
+	public function admin_add(){
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Writer->set($this->request->data);
+			unset($this->Writer->validate['slug']);
+			if ($this->Writer->validates()) {
+				$this->check_slug('Writer', 'name');
+				$this->Writer->validate['slug'] = array(
+					'notBlank' => array(
+						'rule' => array('notBlank'),
+						'message' => 'Phần slug không được để trống',
+					),
+					'unique' => array(
+						'rule'=> 'isUnique',
+						'message'=>'Slug cho tác giả này đã có, vui lòng đổi slug khác.'
+					),
+				);
+				$this->Writer->set($this->request->data);
+				if ($this->Writer->validates()) {
+					$this->Writer->create();
+					if ($this->Writer->save($this->request->data)) {
+						$this->Session->setFlash(__('Đã lưu thành công!'));
+						$this->redirect(array('action'=>'index'));
+					}else{
+						$this->Session->setFlash(__('Chưa lưu được, vui lòng thử lại.'));
+					}
+				}else{
+					$this->set('errors', $this->Writer->validationErrors);
+				}
+			}else{
+				$this->set('errors', $this->Writer->validationErrors);
+			}
+		}
+		$books = $this->Writer->Book->find('list');
+		$this->set('books', $books);
+	}
+
 }
