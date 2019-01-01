@@ -50,6 +50,20 @@ class CouponsController extends AppController{
 		$this->set('coupons', $this->paginate());
 	}
 
+/**
+ * add method
+ */
+	public function admin_add(){
+		if ($this->request->is('post')) {
+			$this->Coupon->create();
+			if ($this->Coupon->save($this->request->data)) {
+				$this->Session->setFlash(__('Đã lưu mã giảm giá mới'));
+				$this->redirect(array('action'=>'index'));
+			}else{
+				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại.'));
+			}
+		}
+	}
 
 
 }
