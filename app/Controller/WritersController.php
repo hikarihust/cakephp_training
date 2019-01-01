@@ -78,4 +78,20 @@ class WritersController extends AppController{
 		$this->set('books', $books);
 		$this->set('title_for_layout', 'Tác Giả - '.$writer['Writer']['name']);
 	}
+
+// ----------------------------------------admin-----------------------------------
+
+/**
+ * index method
+ */
+	public function admin_index(){
+		$this->Writer->recursive = 0;
+		$this->paginate = array(
+			'paramType' => 'querystring',
+			'limit'=>5
+		);
+
+		$this->set('writers', $this->paginate());
+	}
+
 }
