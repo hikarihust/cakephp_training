@@ -77,6 +77,90 @@ class OrdersController extends AppController{
 	}
 
 /**
+ * status method - xác định trạng thái của đơn hàng để lưu vào csdl
+ */
+	private function OrderStatus($st = null){
+		switch ($st) {
+			case 1:
+				$status = 1;
+				break;
+
+			case 2:
+				$status = 0;
+				break;
+
+			case 3:
+				$status = 2;
+				break;
+			
+			default:
+				$status = 1;
+		}
+		return $status;
+	}
+
+/**
+ * edit method - edit đơn hàng
+ */
+
+	public function admin_edit($id = null){
+		if ($this->request->is('post') || $this->request->is('put')) {		
+			// lấy dữ liệu customer info dùng hàm array_slice, lấy từ vị trí đầu tiên, lấy đến vị trí tổng độ dài mảng -4 đếm từ vị trí cuối mảng
+			$customer_info = array_slice($this->request->data['Order'], 1, -(count($this->request->data['Order'])-5));
+
+			// lấy dữ liệu order_info từ $this->request->data['Book']; cấu trúc biến này đã được sắp xếp y hệt như ban đầu, do đã đặt tên các input trên view theo dạng Book.$id.field
+			$order_info = $this->request->data['Book'];
+
+			// dùng foreach để kiểm tra xem có input nào rỗng hay không, nếu input hiển thị thông tin sách bao gồm tên, số lượng và giá bán có 1 hoặc cả 3 đều rỗng thì nghĩa là xóa quển sách đó ra khỏ đơn hàng.
+			foreach ($order_info as $book) {
+			 	if ($book['title'] == null || $book['quantity'] == null || $book['sale_price'] == null) {
+			 		unset($order_info[$book['id']]);
+			 	}
+			}
+
+			//  tính lại giá trị tổng đơn hàng
+			$total = $this->Tool->array_sum($order_info, 'quantity', 'sale_price');
+
+			// lấy thông tin đơn hàng bằng hàm array_slice
+			$payment_info = array_slice($this->request->data['Order'], 5, -1);
+
+			// kiểm tra xem đơn hàng có coupon đi kèm hay không, nếu có thì cập nhật total và tính lại tiền phải trả -> pay rồi cập nhật vào cho biếm $payment_info, còn không thì chỉ cập nhật lại total vào cho biến $payment_info
+			if (isset($payment_info['coupon'])) {
+				$payment_info['total'] = $total;
+				$payment_info['pay'] = $total - $total*$payment_info['discount']/100;
+			}else{
+				$payment_info['total'] = $total;
+			}
+
+			// xác định trạng thái của đơn hàng để lưu vào csdl
+			$status = $this->OrderStatus($this->request->data['Order']['status']);
+
+ 			// gán dữ liệu vào biến $data để cập nhật vào csdl
+			$data = array(
+				'id' => $this->request->data['Order']['id'],
+				'customer_info' => json_encode($customer_info),
+				'payment_info' => json_encode($payment_info),
+				'order_info' => json_encode($order_info),
+				'status' => $status
+			);
+
+			if ($this->Order->save($data)) {
+				$this->Session->setFlash(__('Đã cập nhật đơn hàng thành công'));
+				$this->redirect(array('action' => 'index'));
+			}else{
+				$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau.'));
+			}
+		}else{
+			$options = array(
+				'conditions' => array('Order.id' => $id)
+			);
+			$this->request->data = $this->Order->find('first', $options);
+			$user = $this->Order->User->findById($this->request->data['Order']['user_id']); 
+		}
+		$this->set(compact('user'));
+	}
+	
+/**
  * Xử lý nhiều đơn hàng
  */
 	public function admin_process(){

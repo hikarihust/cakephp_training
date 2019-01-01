@@ -199,3 +199,12 @@ th a {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+.inline-input{
+	display: inline-block;
+	width: 400px;
+	margin: 0 20px;
+}
+.sl, .gb{
+	width: 100px;
+}
