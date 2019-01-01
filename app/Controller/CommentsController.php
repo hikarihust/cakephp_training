@@ -36,4 +36,20 @@ class CommentsController extends AppController{
 			$this->redirect($this->referer().'#nhanxet');
 		}
 	}
+
+// -------------------------------------admin--------------------------------------
+
+/**
+ * index method
+ */
+	public function admin_index(){
+		$this->Comment->recursive = 0;
+		$this->paginate = array(
+			'order' => array('Comment.created' => 'desc'),
+			'paramType' => 'querystring'
+		);
+		$this->set('comments', $this->paginate());
+	}
+
+
 }
