@@ -39,4 +39,17 @@ class CouponsController extends AppController{
 			$this->redirect($this->referer());
 		}
 	}
+
+// ---------------------------------------------admin---------------------------------------------
+
+/**
+ * index method
+ */
+	public function admin_index(){
+		$this->Coupon->recursive = 0;
+		$this->set('coupons', $this->paginate());
+	}
+
+
+
 }
