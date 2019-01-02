@@ -95,4 +95,23 @@ class CouponsController extends AppController{
 			$this->request->data = $this->Coupon->find('first', $options);
 		}
 	}
+
+/**
+ * delete method
+ */
+	public function admin_delete($id = null) {
+		$this->Coupon->id = $id;
+		if (!$this->Coupon->exists()) {
+			throw new NotFoundException(__('Không tìm thấy.'));
+		}
+		if ($this->request->is('post')) {
+			if ($this->Coupon->delete()) {
+				$this->Session->setFlash(__('Đã xóa thành công'));
+				$this->redirect(array('action' => 'index'));
+			}
+		}else{
+			$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau'));
+			$this->redirect(array('action' => 'index'));
+		}
+	}
 }

@@ -26,7 +26,7 @@
 				<?php echo $this->element('admin/timestamp', array('object'=>$coupon['Coupon'])); ?>
 				<td class="actions">
 					<?php echo $this->Html->link(__('Edit'), array('action'=> 'edit', $coupon['Coupon']['id'])); ?>
-					<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete'), array('confirm'=> __('Bạn có chắc chắn muốn xóa coupon %s không?', $coupon['Coupon']['id']))); ?>
+					<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $coupon['Coupon']['id']), array('confirm'=> __('Bạn có chắc chắn muốn xóa coupon %s không?', $coupon['Coupon']['id']))); ?>
 				</td>
 			</tr>
 		<?php endforeach ?>
