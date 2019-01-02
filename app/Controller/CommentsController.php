@@ -51,5 +51,27 @@ class CommentsController extends AppController{
 		$this->set('comments', $this->paginate());
 	}
 
-
+/**
+ * edit method
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Comment->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Comment->set($this->request->data);
+			if ($this->Comment->validates()) {
+				if ($this->Comment->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã lưu thành công'));
+					$this->redirect(array('action' => 'index'));
+				}else{
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau'));
+				}
+			}else{
+				$this->set('errors', $this->Comment->validationErrors);
+			}
+		} 
+		$options = array('conditions' => array('Comment.' . $this->Comment->primaryKey => $id));
+		$this->request->data = $this->Comment->find('first', $options);
+	}
 }
