@@ -77,6 +77,17 @@ class OrdersController extends AppController{
 	}
 
 /**
+ * view method
+ */
+	public function admin_view($id = null) {
+		if (!$this->Order->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy đơn hàng này'));
+		}
+		$options = array('conditions' => array('Order.' . $this->Order->primaryKey => $id));
+		$this->set('order', $this->Order->find('first', $options));
+	}
+
+/**
  * status method - xác định trạng thái của đơn hàng để lưu vào csdl
  */
 	private function OrderStatus($st = null){
