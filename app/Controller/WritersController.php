@@ -190,5 +190,24 @@ class WritersController extends AppController{
 		$this->set(compact('books'));
 	}
 
+/**
+ * delete method
+ */
+	public function admin_delete($id = null) {
+		$this->Writer->id = $id;
+		if (!$this->Writer->exists()) {
+			throw new NotFoundException(__('Không tìm thấy tác giả này'));
+		}
+		if ($this->request->is('post')) {
+			if ($this->Writer->delete()) {
+				$this->Session->setFlash(__('Đã xóa thành công'));
+				$this->redirect(array('action' => 'index'));
+			}
+		}else{
+			$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau.'));
+			$this->redirect(array('action' => 'index'));
+		}
+	}
+
 
 }
