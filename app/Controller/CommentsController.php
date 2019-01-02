@@ -74,4 +74,23 @@ class CommentsController extends AppController{
 		$options = array('conditions' => array('Comment.' . $this->Comment->primaryKey => $id));
 		$this->request->data = $this->Comment->find('first', $options);
 	}
+
+/**
+ * delete method
+ */
+	public function admin_delete($id = null) {
+		$this->Comment->id = $id;
+		if (!$this->Comment->exists()) {
+			throw new NotFoundException(__('Không tìm thấy'));
+		}
+		if ($this->request->is('post')) {
+			if ($this->Comment->delete()) {
+				$this->Session->setFlash(__('Đã xóa thành công'));
+				$this->redirect(array('action' => 'index'));
+			}else{
+				$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau'));
+			}
+		}
+		$this->redirect(array('action' => 'index'));
+	}
 }
