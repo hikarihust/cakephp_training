@@ -195,6 +195,28 @@ class UsersController extends AppController{
 	}
 
 /**
+ * add method
+ */
+	public function admin_add() {
+		if ($this->request->is('post')) {
+			$this->User->set($this->request->data);
+			if ($this->User->validates()) {
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã lưu thành công'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau'));
+				}
+			}else{
+				$this->set('errors', $this->User->validationErrors);
+			}
+		}
+		$groups = $this->User->Group->find('list');
+		$this->set(compact('groups'));
+	}
+
+/**
  * lock method - khóa tài khoản user
  */
 	public function admin_lock($id = null){

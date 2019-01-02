@@ -8,6 +8,16 @@ class User extends AppModel{
 	public $actsAs = array('Containable');
 	public $useTable = 'users';
 	public $validate = array(
+		'username' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Tên đăng nhập không được để trống',
+			),
+			'unique' => array(
+				'rule'=> 'isUnique',
+				'message'=>'Tên đăng nhập đã được đăng ký, vui lòng đổi tên đăng nhập khác'
+			),	
+		),
 		'lastname' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
