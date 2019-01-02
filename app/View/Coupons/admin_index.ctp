@@ -25,7 +25,6 @@
 				<td><?php echo $this->Time->format('d-m-Y H:i:s', $coupon['Coupon']['time_end'], null, 'Asia/Ho_Chi_Minh'); ?>&nbsp;</td>
 				<?php echo $this->element('admin/timestamp', array('object'=>$coupon['Coupon'])); ?>
 				<td class="actions">
-					<?php echo $this->Html->link(__('View'), array('action'=> 'view', $coupon['Coupon']['id'])); ?>
 					<?php echo $this->Html->link(__('Edit'), array('action'=> 'edit', $coupon['Coupon']['id'])); ?>
 					<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete'), array('confirm'=> __('Bạn có chắc chắn muốn xóa coupon %s không?', $coupon['Coupon']['id']))); ?>
 				</td>

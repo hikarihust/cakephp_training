@@ -69,4 +69,30 @@ class CouponsController extends AppController{
 			}
 		}
 	}
+
+/**
+ * edit method
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Coupon->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy.'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->request->data['Coupon']['id'] = $id;
+			$this->Coupon->set($this->request->data);
+			if ($this->Coupon->validates()) {
+				if ($this->Coupon->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã cập nhật thành công'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau.'));
+				}
+			}else{
+				$this->set('errors', $this->Coupon->validationErrors);
+			}
+		} else {
+			$options = array('conditions' => array('Coupon.' . $this->Coupon->primaryKey => $id));
+			$this->request->data = $this->Coupon->find('first', $options);
+		}
+	}
 }
