@@ -217,6 +217,41 @@ class UsersController extends AppController{
 	}
 
 /**
+ * edit method
+ */
+	public function admin_edit($id = null) {
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy người dùng này.'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if(empty($this->request->data['User']['password'])){
+				unset($this->request->data['User']['password']);
+			}
+			$this->User->id = $id;
+			$data = $this->request->data;
+			$this->User->set($this->request->data);
+			if ($this->User->validates()) {
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã lưu thành công'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->request->data = $data;
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau'));
+				}
+			}else{
+
+				$this->set('errors', $this->User->validationErrors);
+			}
+		} else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+			$this->request->data['User']['password'] = null;
+		}
+		$groups = $this->User->Group->find('list');
+		$this->set(compact('groups'));
+	}
+
+/**
  * lock method - khóa tài khoản user
  */
 	public function admin_lock($id = null){
