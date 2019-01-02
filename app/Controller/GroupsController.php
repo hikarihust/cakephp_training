@@ -46,4 +46,32 @@ class GroupsController extends AppController {
 		}
 	}
 
+/**
+ * edit method
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Group->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$data = $this->request->data;
+			$this->Group->id = $id;
+			$this->Group->set($this->request->data);
+			if ($this->Group->validates()) {
+				if ($this->Group->save($this->request->data)) {
+					$this->Session->setFlash(__('Đã lưu thành công'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau'));
+				}
+			}else{
+				$options = array('conditions' => array('Group.' . $this->Group->primaryKey => $id));
+				$this->request->data = $data;
+				$this->set('errors', $this->Group->validationErrors);
+			}
+		}else{
+			$options = array('conditions' => array('Group.' . $this->Group->primaryKey => $id));
+			$this->request->data = $this->Group->find('first', $options);
+		} 
+	}
 }
