@@ -9,7 +9,7 @@
 	$payment_info = json_decode($this->request->data['Order']['payment_info']);
 	$order_info = json_decode($this->request->data['Order']['order_info']);
 ?>
-<?php echo $this->Form->create('Order'); ?>
+<?php echo $this->Form->create('Order', array('novalidate' => true, 'inputDefaults'=> array('error'=>false))); ?>
 	<fieldset>
 		<?php echo $this->Form->input('id'); ?>
 		<legend>Thông tin khách hàng</legend>
@@ -23,11 +23,11 @@
 		<legend>Thông tin đơn hàng</legend>
 		<?php 
 			if (isset($payment_info->coupon)) {
-				echo $this->Form->input('coupon', array('label' => 'Mã giảm giá', 'value'=> $payment_info->coupon));
-				echo $this->Form->input('discount', array('label' => '% giảm giá', 'value'=> $payment_info->discount));
-				echo $this->Form->input('pay', array('label' => 'Tiền phải trả', 'value'=> $payment_info->pay));
+				echo $this->Form->input('coupon', array('readonly' => true, 'label' => 'Mã giảm giá', 'value'=> $payment_info->coupon));
+				echo $this->Form->input('discount', array('readonly' => true, 'label' => '% giảm giá', 'value'=> $payment_info->discount));
+				echo $this->Form->input('pay', array('readonly' => true, 'label' => 'Tiền phải trả', 'value'=> $payment_info->pay));
 			}else{
-				echo $this->Form->input('total', array('label' => 'Tổng cộng', 'value'=> $payment_info->total));
+				echo $this->Form->input('total', array('readonly' => true, 'label' => 'Tổng cộng', 'value'=> $payment_info->total));
 			}
 		?>
 
