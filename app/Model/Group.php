@@ -19,6 +19,10 @@ class Group extends AppModel {
 				'rule' => array('notBlank'),
 				'message' => 'Tên Group không được để trống.',
 			),
+			'unique' => array(
+				'rule' => array('isUnique'),
+				'message' => 'Tên Group này đã có, vui lòng nhập tên khác.'
+			)
 		),
 	);
 
