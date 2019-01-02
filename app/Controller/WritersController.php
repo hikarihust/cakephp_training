@@ -95,6 +95,17 @@ class WritersController extends AppController{
 	}
 
 /**
+ * view method
+ */
+	public function admin_view($id = null) {
+		if (!$this->Writer->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy tác giả này'));
+		}
+		$options = array('conditions' => array('Writer.' . $this->Writer->primaryKey => $id));
+		$this->set('writer', $this->Writer->find('first', $options));
+	}
+
+/**
  * add method
  */
 	public function admin_add(){
