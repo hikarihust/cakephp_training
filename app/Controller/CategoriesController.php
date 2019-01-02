@@ -76,6 +76,18 @@ class CategoriesController extends AppController{
 /**
  * view method
  *
+ */
+ 	public function admin_view($id = null) {
+		if (!$this->Category->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy danh mục này'));
+		}
+		$options = array('conditions' => array('Category.' . $this->Category->primaryKey => $id));
+		$this->set('category', $this->Category->find('first', $options));
+	}
+
+/**
+ * view method
+ *
  * @return void
  */
 	public function admin_add() {
