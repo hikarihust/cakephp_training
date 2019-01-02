@@ -74,4 +74,22 @@ class GroupsController extends AppController {
 			$this->request->data = $this->Group->find('first', $options);
 		} 
 	}
+
+/**
+ * delete method
+ */
+	public function admin_delete($id = null) {
+		$this->Group->id = $id;
+		if (!$this->Group->exists()) {
+			throw new NotFoundException(__('Không tìm thấy'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->Group->delete()) {
+			$this->Session->setFlash(__('Đã xóa thành công'));
+			$this->redirect(array('action' => 'index'));
+		}else{
+			$this->Session->setFlash(__('Không xóa được, vui lòng thử lại sau'));
+			$this->redirect(array('action' => 'index'));
+		}
+	}
 }
