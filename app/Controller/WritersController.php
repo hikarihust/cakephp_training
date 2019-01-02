@@ -144,4 +144,51 @@ class WritersController extends AppController{
 		$this->set('books', $books);
 	}
 
+/**
+ * edit method
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Writer->exists($id)) {
+			throw new NotFoundException(__('Không tìm thấy tác giả này'));
+		}
+
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Writer->set($this->request->data);
+			unset($this->Writer->validate['slug']);
+			if ($this->Writer->validates()) {
+				$this->check_slug('Writer', 'name');
+				$this->Writer->validate['slug'] = array(
+					'notBlank' => array(
+						'rule' => array('notBlank'),
+						'message' => 'Phần slug không được để trống',
+					),
+					'unique' => array(
+						'rule'=> 'isUnique',
+						'message'=>'Slug cho tác giả này đã có, vui lòng đổi slug khác.'
+					),
+				);
+				$this->request->data['Writer']['id'] = $id;
+				$this->Writer->set($this->request->data);
+				if ($this->Writer->validates()) {
+					if ($this->Writer->save($this->request->data)) {
+						$this->Session->setFlash(__('Đã lưu thành công!'));
+						$this->redirect(array('action' => 'index'));
+					}else{
+						$this->Session->setFlash(__('Không lưu được, vui lòng thử lại sau!'));
+					}
+				}else{
+					$this->set('errors', $this->Writer->validationErrors);
+				}
+			}else{
+				$this->set('errors', $this->Writer->validationErrors);
+			}
+		}else{
+			$options = array('conditions' => array('Writer.id' => $id));
+			$this->request->data = $this->Writer->find('first', $options);
+		}
+		$books = $this->Writer->Book->find('list');
+		$this->set(compact('books'));
+	}
+
+
 }
