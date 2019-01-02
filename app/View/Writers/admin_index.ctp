@@ -11,7 +11,7 @@
 			<th><?php echo $this->Paginator->sort('slug'); ?></th>
 			<th><?php echo $this->Paginator->sort('biography', 'Tiểu sử'); ?></th>
 			<th><?php echo $this->Paginator->sort('created', 'Ngày tạo'); ?></th>
-			<th class="actions"></th>
+			<th class="actions"><?php echo __('Actions'); ?></th>
 		</tr>
 		<?php foreach ($writers as $writer): ?>
 		<tr>
