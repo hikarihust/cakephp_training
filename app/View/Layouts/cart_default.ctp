@@ -43,11 +43,7 @@ echo $this->fetch('script');
 					<?= $this->Html->link('Trang chủ', '/', array('class' => "navbar-brand")) ?>
 
 					<div class="nav-collapse collapse">
-						<ul class="nav navbar-nav">
-							<li class="active"><?php echo $this->Html->link('Sách mới','/sach-moi') ?></li>
-							<li><a href="#ban-chay">Sách bán chạy</a></li>
-							<li><a href="#lien-he">Liên hệ</a></li>
-						</ul>
+						<?php echo $this->element('main_menu'); ?>
 				        <ul class="nav navbar-nav pull-right">
 							<?= $this->Form->create('Book', array('url' => array('controller' => 'books', 'action' => 'get_keyword'), 'type' => 'post', 'novalidate' => true, 'class' => 'navbar-form search')); ?>
 								<?php if (isset($keyword)): ?>
