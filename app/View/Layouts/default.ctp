@@ -44,13 +44,31 @@
 
 	      <div class="nav-collapse collapse">
 	        <ul class="nav navbar-nav">
-		        <li class="active">
+		        <?php if ($this->request->params['action'] == 'latest_books'): ?>
+		        	<li class="active">
+		        <?php else: ?>
+		        	<li>
+		        <?php endif ?>
 		        	<?= $this->Html->link('Sách mới', '/sach-moi') ?>
 		        </li>
-	          	<li>
-	          		<?= $this->Html->link('Sách bán chạy', '/sach-ban-chay') ?>
-	          	</li>
+
+		        <?php if ($this->request->params['action'] == 'best_seller'): ?>
+		        	<li class="active">
+		        <?php else: ?>
+		        	<li>
+		        <?php endif ?>
+		        	<?= $this->Html->link('Sách bán chạy', '/sach-ban-chay') ?>
+		        </li>
+
 	          	<li><a href="#lien-he">Liên hệ</a></li>
+
+		        <?php if ($this->request->params['action'] == 'about'): ?>
+		        	<li class="active">
+		        <?php else: ?>
+		        	<li>
+		        <?php endif ?>
+		        	<?= $this->Html->link('About', '/about') ?>
+		        </li>
 	        </ul>
 	        <ul class="nav navbar-nav pull-right">
 				<?= $this->Form->create('Book', array('url' => array('controller' => 'books', 'action' => 'get_keyword'), 'type' => 'post', 'novalidate' => true, 'class' => 'navbar-form search')); ?>
