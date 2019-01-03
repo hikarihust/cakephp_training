@@ -75,7 +75,7 @@ class PagesController extends AppController {
 	// }
 
 	public function contact(){
-		$this->set('title_for_layout', 'Liên Hệ - ChickenRainShop');
+		$this->set('title_for_layout', 'Liên Hệ');
 		if($this->request->is('post')){
 			$this->Page->set($this->request->data);
 			if($this->Page->validates()){
@@ -98,4 +98,7 @@ class PagesController extends AppController {
 		$this->set('title_for_layout', 'Thông tin trang');
 	}
 
+	public function policy(){
+		$this->set('title_for_layout', 'Điều Khoản');
+	}
 }

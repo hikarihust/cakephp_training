@@ -121,7 +121,8 @@
 	<div id="footer">
 	  <div class="container">
 	    <p class="text-muted credit">
-	    	<a href="#">CakePHP Training</a> 
+	    	<a href="#">CakePHP Training</a> -
+	    	<?php echo $this->Html->link('Điều khoản sử dụng','/dieu-khoan'); ?>
 	    </p>
 	  </div>
 	</div>
