@@ -74,6 +74,26 @@ class PagesController extends AppController {
 	// 	}
 	// }
 
+	public function contact(){
+		$this->set('title_for_layout', 'Liên Hệ - ChickenRainShop');
+		if($this->request->is('post')){
+			$this->Page->set($this->request->data);
+			if($this->Page->validates()){
+				App::uses('CakeEmail','Network/Email');
+				// gởi email liên hệ
+				// $email = new CakeEmail();
+				// $email->from(array('vudinhquang22021989@gmail.com' => 'quang'))
+				// 	->to(array($user['User']['email'] => $user['User']['name']))
+				// 	->subject('Đã có một liên hệ mới trên trang Web')
+				// 	->send('Người gởi:'.$this->request->data['Page']['fullname'].'<br/>Email:'.$this->request->data['Page']['email'].'<br/>Nội dung như sau: '.$this->request->data['Page']['content']);
+				$this->Session->setFlash('Cảm ơn bạn đã gởi liên hệ, chúng tôi sẽ trả lời bạn trong thời gian sớm nhất','default',array('class'=>'alert alert-success'));
+				$this->request->data['Page'] = null;
+			}else{
+				$this->set('errors', $this->Page->validationErrors);
+			}
+		}
+	}
+
 	public function about(){
 		$this->set('title_for_layout', 'Thông tin trang');
 	}

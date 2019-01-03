@@ -60,7 +60,13 @@
 		        	<?= $this->Html->link('Sách bán chạy', '/sach-ban-chay') ?>
 		        </li>
 
-	          	<li><a href="#lien-he">Liên hệ</a></li>
+		        <?php if ($this->request->params['action'] == 'contact'): ?>
+		        	<li class="active">
+		        <?php else: ?>
+		        	<li>
+		        <?php endif ?>
+		        	<?= $this->Html->link('Liên hệ', '/lien-he') ?>
+		        </li>
 
 		        <?php if ($this->request->params['action'] == 'about'): ?>
 		        	<li class="active">
