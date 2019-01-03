@@ -6,7 +6,10 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel {
 
-	public $actsAs = array('Containable');
+	public $actsAs = array(
+		'Containable',
+		'Acl' => array('type' => 'requester')
+	);
 	public $useTable = 'groups';
 /**
  * Validation rules
@@ -37,4 +40,8 @@ class Group extends AppModel {
 			'foreignKey' => 'group_id',
 		)
 	);
+
+	public function parentNode(){
+		return null;
+	}
 }

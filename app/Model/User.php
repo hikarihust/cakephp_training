@@ -5,7 +5,10 @@ class User extends AppModel{
 	public $virtualFields = array(
 		'fullname' => 'CONCAT(User.lastname, " ", User.firstname)'
 	);
-	public $actsAs = array('Containable');
+	public $actsAs = array(
+		'Containable',
+		'Acl' => array('type' => 'requester')
+	);
 	public $useTable = 'users';
 	public $validate = array(
 		'username' => array(
@@ -129,4 +132,18 @@ class User extends AppModel{
  		}
  		return true;
  	}
+
+	public function parentNode() {
+	    if (!$this->id && empty($this->data)) {
+	        return null;
+	    }
+	    $data = $this->data;
+	    if (empty($this->data)) {
+	        $data = $this->read();
+	    }
+	    if (!$data['User']['group_id']) {
+	        return null;
+	    }
+	    return array('Group' => array('id' => $data['User']['group_id']));
+	}
 }
