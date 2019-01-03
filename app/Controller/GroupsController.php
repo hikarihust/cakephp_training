@@ -8,6 +8,35 @@ App::uses('AppController', 'Controller');
 class GroupsController extends AppController {
 
 /**
+ * Đưa dữ liệu groups và users vào bảng aros
+ */
+	public function admin_create_aros(){
+		$aro = $this->Acl->Aro;
+		$groups = $this->Group->find('all');
+		foreach ($groups as $group) {
+			$aro->create();
+			$aro->save(array(
+				'alias' => $group['Group']['name'],
+				'model' => 'Group',
+				'foreign_key' => $group['Group']['id']
+				));
+		}
+
+		//$this->loadModel('User');
+		$users = $this->Group->User->find('all');
+		foreach ($users as $user) {
+			$aro->create();
+			$aro->save(array(
+				'parent_id' => $user['User']['group_id'],
+				'alias' => $user['User']['username'],
+				'model' => 'User',
+				'foreign_key' => $user['User']['id']
+				));
+		}
+		exit;
+	}
+
+/**
  * index method
  */
 	public function admin_index() {

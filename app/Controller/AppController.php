@@ -42,7 +42,8 @@ class AppController extends Controller {
 					'scope' => array('User.active' => 1)
 				)
 			)
-		)
+		),
+		'Acl'
 	);
 
 	public $helpers = array('Display');
