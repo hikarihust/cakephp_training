@@ -102,7 +102,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <?= $this->Html->script('jquery') ?>
 <?= $this->Html->script('bootstrap') ?>
-<?= $this->element('sql_dump'); ?>
+<?php //echo $this->element('sql_dump'); ?>
 
 </body>
 </html>

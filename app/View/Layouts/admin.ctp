@@ -50,16 +50,9 @@ $description = 'Admin - Home';
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-		<p class="text-description">Giao diện thực hành khóa học <a class="website" href="http://chickenrain.com/khoa-hoc-cakephp-nang-cao">CakePHP Nâng Cao</a> - <a class="website" href="http://chickenrain.com">ChickenRain.com</a></p>
-
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $description, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+		<p class="text-description">CakePHP - Training </p>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>
