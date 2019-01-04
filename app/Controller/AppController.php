@@ -41,6 +41,9 @@ class AppController extends Controller {
 				'Form' => array(
 					'scope' => array('User.active' => 1)
 				)
+			),
+			'authorize' => array(
+				'Actions' => array('actionPath'=>'controllers')
 			)
 		),
 		'Acl'
