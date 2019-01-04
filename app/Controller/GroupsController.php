@@ -36,6 +36,10 @@ class GroupsController extends AppController {
 	// 	exit;
 	// }
 
+	// public function admin_install(){
+	// 	$this->Acl->allow(array('model'=>'Group', 'foreign_key'=>5),'Users/logout');
+	// }
+
 /**
  * index method
  */
