@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <?php echo $this->Html->charset(); ?>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+<title>
+	<?php echo $title_for_layout; ?>
+</title>
+<?php echo $this->Html->meta('icon'); ?>
+<!-- Bootstrap core CSS -->
+<?= $this->Html->css('bootstrap') ?>
+<!-- style.css -->
+<?= $this->Html->css('style') ?>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond/respond.min.js"></script>
+<![endif]-->
+<?php
+	echo $this->fetch('meta');
+	echo $this->fetch('css');
+	echo $this->fetch('script');
+?>
+</head>
+<body>
+<div id="container" class="container">
+  
+
+  <!-- Header -->
+  	<div id="header">
+  		<!-- Main Menu - ChickenRain.com -->
+	  <div class="navbar mainmenu">
+	    <div class="container">
+	      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </a>
+	      <?= $this->Html->link('Trang chủ', '/', array('class' => "navbar-brand")) ?>
+
+	      <div class="nav-collapse collapse">
+	      	<!-- Menu -->
+	      	<?php echo $this->element('main_menu'); ?>
+	      	<!-- end menu -->
+	        <ul class="nav navbar-nav pull-right">
+				<?= $this->Form->create('Book', array('url' => array('controller' => 'books', 'action' => 'get_keyword'), 'type' => 'post', 'novalidate' => true, 'class' => 'navbar-form search')); ?>
+					<?php if (isset($keyword)): ?>
+							<?= $this->Form->input('keyword', array('value' => $keyword, 'error' =>false, 'label' => false, 'placeholder' => 'Gõ vào từ khóa để tìm kiếm...')); ?>
+						<?php else: ?>
+							<?= $this->Form->input('keyword', array('error' =>false, 'label' => false, 'style' => "width: 200px;",'placeholder' => 'Tìm kiếm...')); ?>
+					<?php endif ?>
+				<?= $this->Form->end(); ?>
+	        </ul>
+	      </div>
+	    </div>
+	  </div> <!-- end Main Menu -->
+	</div>
+
+  <!-- Content -->
+  <div id="content">
+  	<div class="row">
+  		<!-- content -->
+	  	<div class="content col col-lg-9">
+	  		<?php echo $this->fetch('content'); ?>
+	  	</div> 
+	  	<!-- end content -->
+
+  	</div>
+  </div>
+  <!-- Footer -->
+	<div id="footer">
+	  <div class="container">
+	    <p class="text-muted credit">
+	    	<a href="#">CakePHP Training</a> -
+	    	<?php echo $this->Html->link('Điều khoản sử dụng','/dieu-khoan'); ?>
+	    </p>
+	  </div>
+	</div>
+
+</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<?= $this->Html->script('jquery') ?>
+<?= $this->Html->script('bootstrap') ?>
+<?php //echo $this->element('sql_dump'); ?>
+
+</body>
+</html>
