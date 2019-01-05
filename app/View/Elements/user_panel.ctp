@@ -1,3 +1,4 @@
+<?php $user_info = $this->Session->read('user_info'); ?>
 <?php if (!empty($user_info)): ?>
 	<div class="panel">
 	<h4 class="panel-heading">

@@ -163,6 +163,7 @@ class UsersController extends AppController{
 	public function login(){
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
+				$this->Session->write('user_info', $this->Auth->user());   
 				$this->redirect($this->Auth->redirectUrl());
 			}else{
 				$user_info = $this->User->findByUsername($this->request->data['User']['username']);
@@ -180,6 +181,7 @@ class UsersController extends AppController{
  * logout - đăng xuất
  */
 	public function logout(){
+		$this->Session->delete('user_info');
 		$this->redirect($this->Auth->logout());
 	}
 

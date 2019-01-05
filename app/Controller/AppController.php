@@ -53,17 +53,17 @@ class AppController extends Controller {
 
 	public function beforeFilter(){
 		$this->Auth->allow('confirm', 'forgot', 'register', 'menu', 'view', 'index', 'best_seller', 'latest_books', 'add_to_cart', 'view_cart', 'empty_cart', 'update', 'remove', 'get_keyword', 'search');
-		$this->set('user_info', $this->get_user());
+		// $this->set('user_info', $this->get_user());
 		if (substr($this->request->params['action'], 0, 6) == 'admin_') {
 			$this->layout = 'admin';
 		}
 	}
 
-	public function get_user(){
-		if ($this->Auth->login()) {
-			return $this->Auth->user();
-		}
-	}
+	// public function get_user(){
+	// 	if ($this->Auth->login()) {
+	// 		return $this->Auth->user();
+	// 	}
+	// }
 
 	public function check_slug($model,  $name, $slug_field = 'slug'){
 		if(empty($this->request->data[$model][$slug_field])){
