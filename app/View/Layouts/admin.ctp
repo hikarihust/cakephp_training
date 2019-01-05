@@ -39,7 +39,6 @@ $description = 'Admin - Home';
 </head>
 <body>
 	<div id="container">
-		<?php $user_info = $this->Session->read('user_info'); ?>
 		<div id="header">
 			<h1><?php echo $this->Html->link($description, '/admin'); ?> <small class="admin-info">Chào <strong><?php echo $user_info['fullname'] ?></strong>! <?php echo $this->Html->link('Thoát','/logout'); ?></small></h1>
 		</div>

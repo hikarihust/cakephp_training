@@ -65,11 +65,15 @@ class AppController extends Controller {
 		}
 	}
 
-	// public function get_user(){
-	// 	if ($this->Auth->login()) {
-	// 		return $this->Auth->user();
-	// 	}
-	// }
+	public function beforeRender(){
+		$this->set('user_info', $this->get_user());
+	}
+
+	public function get_user(){
+		if ($this->Auth->login()) {
+			return $this->Auth->user();
+		}
+	}
 
 	public function check_slug($model,  $name, $slug_field = 'slug'){
 		if(empty($this->request->data[$model][$slug_field])){

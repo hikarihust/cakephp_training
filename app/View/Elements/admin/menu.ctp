@@ -1,7 +1,6 @@
 <div class="actions">
 	<h3><?php echo __('Menu'); ?></h3>
 	<ul>
-		<?php $user_info = $this->Session->read('user_info'); ?>
 		<?php if ($user_info['group_id'] == 5): ?>
 			<li><?php echo $this->Html->link(__('Categories'), array('controller' => 'categories', 'action' => 'index')); ?> </li>
 			<li><?php echo $this->Html->link(__('Books'), array('controller' => 'books', 'action' => 'index')); ?> </li>
