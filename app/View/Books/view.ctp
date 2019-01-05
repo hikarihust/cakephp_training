@@ -88,8 +88,8 @@
 			<?php if (!empty($comments)): ?>
 				<?php foreach($comments as $comment): ?>
 					<p class="comment">
-						<strong><?php echo $comment['User']['fullname']; ?>:</strong>
-						<?php echo $comment['Comment']['content']; ?>
+						<strong><?php echo h($comment['User']['fullname']); ?>:</strong>
+						<?php echo h($comment['Comment']['content']); ?>
 					</p>
 				<?php endforeach; ?>
 			<?php else: ?>
@@ -97,8 +97,6 @@
 					Chưa có nhận xét nào
 				</p>
 			<?php endif; ?>
-
-
 
 			<h4>Gửi nhận xét:</h4>
 			<?php if (!empty($user_info)): ?>
